@@ -49,11 +49,10 @@ app.post("/api/test", (req, res) => {
 // Якщо ми на сервері (production)
 if (process.env.NODE_ENV === 'production') {
   // 1. Вказуємо папку зібраного фронтенду
- // Піднімаємося на два рівні вгору (..), щоб вийти з 'backend/src' у корінь проєкту
-app.use(express.static(path.join(__dirname, '../dist')));
+ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 }
 
