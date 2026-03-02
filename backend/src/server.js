@@ -49,11 +49,11 @@ app.post("/api/test", (req, res) => {
 // Якщо ми на сервері (production)
 if (process.env.NODE_ENV === 'production') {
   // 1. Вказуємо папку зібраного фронтенду
-  app.use(express.static(path.join(__dirname, '../frontend/dist'))); 
+ // Піднімаємося на два рівні вгору (..), щоб вийти з 'backend/src' у корінь проєкту
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
-  // 2. Всі інші запити (не API) перенаправляємо на index.html фронтенда
-  app.get(/.*/, (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../frontend/dist', 'index.html'));
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../../frontend/dist', 'index.html'));
 });
 }
 
