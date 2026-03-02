@@ -52,9 +52,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/dist'))); 
 
   // 2. Всі інші запити (не API) перенаправляємо на index.html фронтенда
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'))
-  );
+  app.get(/.*/, (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../frontend/dist', 'index.html'));
+});
 }
 
 app.use((err, req, res, next) => {
