@@ -1,0 +1,544 @@
+.add-post-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  font-family: 'Inter', sans-serif;
+}
+
+.add-post-container h2 {
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+  font-size: 1.8rem;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+.add-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  padding: 0.8rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.save-btn {
+  background: #2563eb;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 2;
+  transition: background 0.2s;
+}
+
+.save-btn:hover {
+  background: #1d4ed8;
+}
+
+.cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+}
+
+.cancel-btn:hover {
+  background: #e2e8f0;
+}
+
+.preview-container {
+  margin-top: 10px;
+}
+.img-preview {
+  max-width: 200px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.file-input {
+  padding: 10px;
+  border: 2px dashed #ccc;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+}
+
+.editor-wrapper {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  background: white;
+}
+
+
+
+/* Зробити панель інструментів трохи симпатичнішою */
+.ck-toolbar {
+  border: none !important;
+  background: #f4f4f4 !important;
+}
+
+/* Робимо так, щоб було видно процес завантаження */
+.ck-progress-bar {
+  background: #007bff !important;
+  height: 4px !important;
+}
+
+ .ck-uploading-placeholder {
+  opacity: 0.5;
+  border: 2px dashed #007bff;
+}
+
+/* Робимо зону редактора більш чутливою до дропу */
+.ck-editor__editable_inline {
+    min-height: 400px !important;
+    cursor: text;
+}
+
+.ck-editor__editable_inline {
+    min-height: 500px !important;
+    padding: 0 20px !important;
+     cursor: text;
+}
+
+/* Виділяємо зону, коли на неї наводять файл (якщо підтримується темою) */
+.ck-editor__editable.ck-focused {
+    border-color: #007bff !important;
+}
+
+.ck-editor__editable {
+    user-select: text;
+}
+
+/* Стилізація блоків коду всередині редактора */
+.ck-content code {
+    background-color: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Щоб відео з YouTube не вилазили за межі */
+.ck-content .media {
+    max-width: 100%;
+    margin: 1em 0;
+}
+
+
+/* Контейнер для всього блоку CPA */
+.cpa-settings-section {
+    margin: 30px 0;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Заголовок секції з іконкою */
+.cpa-settings-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1e293b;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+}
+
+.cpa-settings-section h3::before {
+    content: "🚀";
+}
+
+/* Групування кожного поля */
+.admin-input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-input-group label {
+    font-weight: 600;
+    color: #475569;
+    font-size: 0.9rem;
+}
+
+/* Стилізація текстових полів */
+.admin-input-group input, 
+.admin-input-group textarea {
+    padding: 12px 16px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
+}
+
+/* Ефект фокусу (як у твоїх основних полів) */
+.admin-input-group input:focus, 
+.admin-input-group textarea:focus {
+    outline: none;
+    border-color: #764ba2;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(118, 75, 162, 0.1);
+}
+
+/* Окремий стиль для URL (робимо його трохи схожим на посилання) */
+.admin-input-group input[type="url"] {
+    color: #2563eb;
+    font-family: monospace;
+}
+
+/* Стиль для textarea (опис CPA) */
+.admin-input-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Підказка під полем */
+.field-hint {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+/* ===================avatars==== */
+.author-selector-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 16px;
+  border: 1px dashed #cbd5e1;
+  margin-bottom: 25px;
+}
+
+.author-avatar-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.author-dropdown {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+  color: #1e293b;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+.author-role-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+.editor-wrapper.fullscreen-editor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999; 
+  background: white;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.fullscreen-editor .ck-editor__main .ck-content {
+  height: calc(100vh - 120px) !important;
+}
+
+.close-fullscreen-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+  padding: 10px 20px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.close-fullscreen-btn:hover {
+  background: #ff0000;
+}
+
+/* Щоб не було прокрутки основної сторінки під редактором */
+body:has(.fullscreen-editor) {
+  overflow: hidden;
+}
+
+
+/* =============питання */
+.admin-faq-section {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-top: 30px;
+}
+
+.faq-item-admin {
+  display: flex;
+  gap: 15px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #edf2f7;
+  align-items: flex-start;
+}
+
+.faq-inputs {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-inputs input, .faq-inputs textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.faq-inputs textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.remove-faq-btn {
+  background: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #feb2b2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.remove-faq-btn:hover {
+  background: #feb2b2;
+  color: white;
+}
+
+.add-faq-btn {
+  background: #ebf8ff;
+  color: #3182ce;
+  border: 1px dashed #3182ce;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-faq-btn:hover {
+  background: #3182ce;
+  color: white;
+  border-style: solid;
+}
+
+/* =============питання */
+/* Контейнер для всього блоку FAQ */
+.faq-section {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-top: 20px;
+}
+
+.faq-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #111827;
+}
+
+/* Кожен окремий елемент питання-відповідь */
+.faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 15px;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+
+.faq-item:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Стилі інпутів */
+.faq-item input, 
+.faq-item textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.faq-item input:focus, 
+.faq-item textarea:focus {
+  border-color: #3b82f6;
+  ring: 2px #3b82f6;
+}
+
+/* Кнопка видалення */
+.btn-remove {
+  align-self: flex-end;
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-remove:hover {
+  background: #fecaca;
+}
+
+/* Кнопка додавання */
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn-add:hover {
+  opacity: 0.9;
+}
+
+.author-selector-card {
+  background: rgba(255, 255, 255, 0.05); /* Легкий фон */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.author-card-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px; /* Відступ від селектора до тексту */
+}
+
+.author-bio-edit {
+  border-top: 1px solid #eee; /* Розділова лінія */
+  padding-top: 15px;
+}
+
+.sub-label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.author-bio-textarea {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical; /* Дозволяємо змінювати розмір тільки по вертикалі */
+  background: white;
+  color: #333;
+}
+
+.author-bio-textarea:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1);
+}

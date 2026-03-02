@@ -1,0 +1,68 @@
+.sidebar-widget {
+  background: var(--bg-gradient);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+}
+
+.widget-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--sidebar-bg);
+}
+
+.sidebar-social-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-social-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.social-icon {
+  font-size: 1.4rem;
+  margin-right: 12px;
+  display: flex;
+  color: var(--brand-color); 
+}
+
+.social-name {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.social-count {
+  font-size: 0.85rem;
+  color: #777;
+  background: var(--bg-color);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.sidebar-social-item:hover {
+  background: var(--brand-color);
+  transform: translateX(5px);
+}
+
+.sidebar-social-item:hover .social-icon,
+.sidebar-social-item:hover .social-name,
+.sidebar-social-item:hover .social-count {
+  color: var(--bg-color);
+}
+
+.sidebar-social-item:hover .social-count {
+  background: rgba(255, 255, 255, 0.2);
+}

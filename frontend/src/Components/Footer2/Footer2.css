@@ -1,0 +1,122 @@
+.footer {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  padding: 60px 0 20px;
+  /* margin-top: 50px; */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer_container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: grid;
+  /* 3 колонки на десктопі */
+  grid-template-columns: 2fr 1fr 1fr; 
+  gap: 40px;
+}
+
+.footer_logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.02em; /* Легке звуження для великих розмірів */
+  font-weight: 800;
+}
+.footer_logo-img{
+  max-width: 48px;
+  height: 48px;
+}
+
+.footer_about p {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.footer_socials {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.footer_socials a {
+  color: #fff;
+  font-size: 20px;
+  transition: 0.3s;
+}
+
+.footer_socials a:hover {
+  color: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.footer_links h3 {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer_links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer_links li {
+  margin-bottom: 12px;
+}
+
+.footer_links a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer_links a:hover {
+  color: var(--accent-color);
+  padding-left: 5px;
+}
+
+.footer_bottom {
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+}
+
+/* ================= АДАПТИВНІСТЬ ================= */
+
+/* Планшети */
+@media (max-width: 992px) {
+  .footer_container {
+    grid-template-columns: 1fr 1fr; /* 2 колонки */
+  }
+}
+
+/* Мобільні */
+@media (max-width: 600px) {
+  .footer_container {
+    grid-template-columns: 1fr; /* Все в один стовпчик */
+    text-align: center;
+  }
+  
+  .footer_about p {
+    max-width: 100%;
+  }
+
+  .footer_socials {
+    justify-content: center;
+  }
+
+  .footer_logo {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,27 @@
+.code-editor-container {
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: #2d2d2d; /* Фон VS Code */
+}
+
+.editor-label {
+  background: #1e1e1e;
+  padding: 8px 15px;
+  color: #888;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #333;
+}
+
+.editor-textarea {
+  min-height: 200px;
+  outline: none;
+}
+
+/* Прибираємо стандартні бордери редактора */
+.editor-textarea textarea {
+  outline: none !important;
+}

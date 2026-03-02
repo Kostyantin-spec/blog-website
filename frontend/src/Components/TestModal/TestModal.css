@@ -1,0 +1,223 @@
+/* Основне вікно */
+.modal-content_testmodal {
+  background: #0f172a; 
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 28px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  color: white;
+
+}
+
+.modal-overlay_testmodal {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.8); 
+  backdrop-filter: blur(8px); 
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  z-index: 9999; 
+}
+
+.modal-content_testmodal {
+  position: relative; 
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 28px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  margin: 0 auto; 
+}
+
+.modal-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 1;
+}
+
+.modal-glow-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(49, 130, 206, 0.15) 0%, transparent 70%);
+  filter: blur(50px);
+  z-index: 1;
+}
+.modal-header_testmodal {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header-icon_testmodal {
+  background: rgba(49, 130, 206, 0.1);
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  border: 1px solid rgba(49, 130, 206, 0.3);
+  box-shadow: 0 0 20px rgba(49, 130, 206, 0.2);
+}
+
+.modal-header_testmodal h2 {
+  color: #f8fafc !important;
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.modal-header_testmodal p {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.features-list_testmodal {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feature-item_testmodal {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  gap: 16px;
+  transition: all 0.3s ease;
+}
+
+.feature-item_testmodal:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateX(5px);
+}
+
+.icon-wrapper_testmodal {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(49, 130, 206, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-text_testmodal h4 {
+  color: #e2e8f0;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+.feature-text_testmodal p {
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.modal-cta_testmodal {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-top: 30px;
+  background: #3182ce;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+}
+
+.modal-cta_testmodal:hover {
+  background: #4299e1;
+  box-shadow: 0 6px 20px rgba(49, 130, 206, 0.5);
+}
+
+.close-btn_testmodal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.close-btn_testmodal:hover {
+  background: rgba(239, 68, 68, 0.2); 
+  color: #ef4444;
+}
+
+@media (max-width: 640px) {
+  .modal-overlay_testmodal {
+    padding: 15px; 
+    align-items: flex-end; 
+  }
+
+  .modal-content_testmodal {
+    padding: 30px 20px;
+    width: 100%;
+    max-height: 90vh; 
+    overflow-y: auto; 
+    border-radius: 24px 24px 0 0; 
+    margin-bottom: 0;
+  }
+
+  .modal-header_testmodal h2 {
+    font-size: 20px; 
+  }
+
+  .feature-item_testmodal {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .feature-text_testmodal h4 {
+    font-size: 15px;
+  }
+
+  .feature-text_testmodal p {
+    font-size: 12px;
+  }
+
+  .header-icon_testmodal {
+    width: 50px;
+    height: 50px;
+  }
+
+  .close-btn_testmodal {
+    top: 15px;
+    right: 15px;
+    background: rgba(15, 23, 42, 0.8); 
+  }
+}

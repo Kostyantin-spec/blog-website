@@ -1,0 +1,124 @@
+/* Контейнер секції */
+.related-section {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-color);
+}
+
+.related-section h3 {
+  margin-bottom: 30px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-color);
+}
+
+/* Сітка */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* Картка */
+.related-card {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 16px; 
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.related-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent-color);
+  /* box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  filter: brightness(1.1); */
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(var(--accent-rgb, 99, 102, 241), 0.3);
+}
+
+/* Зображення */
+.related-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  transition: transform 0.5s ease;
+}
+
+.related-card:hover img {
+  transform: scale(1.03); 
+}
+
+/* Заголовок статті */
+.related-card h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.related-card:hover h4 {
+  color: var(--accent-color);
+}
+
+/* Адаптивність */
+@media (max-width: 992px) {
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+  .related-section {
+    margin-top: 40px;
+    padding-top: 25px;
+  }
+}
+
+.related-post-image-container {
+  width: 100%;
+  height: 180px; 
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.related-post-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  transition: transform 0.3s ease;
+}

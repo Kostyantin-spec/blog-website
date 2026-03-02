@@ -1,0 +1,111 @@
+
+import React, { useState } from 'react'; 
+import { BsSend, BsCheckCircle } from "react-icons/bs";
+import createUnifiedPayload from '../../../../../backend/utils/createUnifiedPayload'
+import './Newsletter.css';
+
+const socialAvatars = [
+  "https://i.pravatar.cc/150?img=47",
+  "https://i.pravatar.cc/150?img=32",
+  "https://i.pravatar.cc/150?img=12",
+  "https://i.pravatar.cc/150?img=5"
+];
+
+const Newsletter = () => {
+  // Використовуємо локальні стани, щоб не залежати від проблемного хука
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleFooterSubmit = async (e) => {
+  e.preventDefault();
+  const email = e.target.email.value;
+  setLoading(true);
+
+  // 1. Формуємо blogData для футера
+  const blogData = {
+    authorEmail: email,
+    title: "Підписка на розсилку",
+    description: "Підписка на новини з футера",
+    slug: "footer-subscription"
+  };
+
+  // 2. Використовуємо уніфікований формат
+  const payload = createUnifiedPayload("footer_subscription", blogData, { siteName: "marketingkit.com" });
+
+  try {
+    const webhookUrl = localStorage.getItem("makeWebhookUrl") || "http://localhost:5000/api/send-to-make";
+    
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload), 
+    });
+
+    if (response.ok) {
+      setSuccess(true);
+      // Можна додати автоматичне очищення форми через 2 секунди
+      e.target.reset();
+    }
+  } catch (err) {
+    console.error("Помилка:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  return (
+    <section className="subscribe">
+      {success ? (
+        <div className="newsletter-success" style={{ padding: '60px', textAlign: 'center', width: '100%' }}>
+          <BsCheckCircle size={50} color="#28a745" style={{ marginBottom: '20px' }} />
+          <h3>Дякуємо за довіру! 🎉</h3>
+          <p>Найцікавіше вже готується до відправки на твій Email.</p>
+        </div>
+      ) : (
+        <>
+          <div className="left">
+            <h2>Приєднуйся до 5,000+ маркетологів</h2>
+            <p>Раз на тиждень надсилаю добірку інструментів та кейсів, які перевірив особисто.</p>
+          </div>
+
+          <div className="social-proof">
+            <div className="avatars-stack">
+              {socialAvatars.map((url, index) => (
+                <img key={index} src={url} alt="Subscriber" className="avatar-img" />
+              ))}
+            </div>
+            <p className="proof-text">
+              Вже підписалися: <strong>5240+ людей</strong>
+            </p>
+          </div>
+          
+          <div className="right">
+            <form onSubmit={handleFooterSubmit}>
+              <input 
+                name="email" 
+                type="email" 
+                placeholder="Твій Email" 
+                required 
+                disabled={loading}
+              />
+              <button type="submit" disabled={loading}>
+                {loading ? (
+                  <div className="spinner"></div> 
+                ) : (
+                  <>
+                    <BsSend /> <span>Підписатися</span>
+                  </>
+                )}
+              </button>
+            </form>
+            <p className="privacy-info" style={{ marginTop: '15px', fontSize: '12px', opacity: 0.6 }}>
+              Натискаючи кнопку, ти погоджуєшся з політикою конфіденційності.
+            </p>
+          </div>
+        </>
+      )}
+    </section>
+  );
+};
+
+export default Newsletter;

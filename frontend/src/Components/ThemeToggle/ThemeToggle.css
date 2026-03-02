@@ -1,0 +1,21 @@
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.theme-toggle:hover {
+  background-color: var(--sidebar-bg);
+}
+
+
+[data-theme='dark'] .related-card:hover {
+  background: linear-gradient(145deg, var(--card-bg), rgba(255, 255, 255, 0.05));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}

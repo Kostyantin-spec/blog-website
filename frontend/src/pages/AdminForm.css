@@ -1,0 +1,131 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg-main: #f1f5f9;
+  --text-main: #1e293b;
+  --border-color: #cbd5e1;
+  --white: #ffffff;
+}
+
+/* Контейнер форми */
+.add-post-container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.add-post-container h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 2rem;
+  border-left: 5px solid var(--primary);
+  padding-left: 1rem;
+}
+
+/* Сітка та групи полів */
+.add-post-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Поля вводу */
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 1rem;
+  color: var(--text-main);
+  transition: all 0.2s ease-in-out;
+  background-color: #fcfcfc;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--white);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* Рядки з двома колонками */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Спеціальний стиль для контенту (Markdown) */
+.form-group textarea {
+  min-height: 300px;
+  line-height: 1.6;
+  font-family: 'Inter', system-ui, sans-serif;
+  resize: vertical;
+}
+
+/* Кнопки */
+.form-btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.save-btn {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex: 2;
+}
+
+.save-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.cancel-btn {
+  background-color: #e2e8f0;
+  color: #475569;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+}
+
+.cancel-btn:hover {
+  background-color: #cbd5e1;
+}
+
+/* Мобільна адаптивність */
+@media (max-width: 640px) {
+  .add-post-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

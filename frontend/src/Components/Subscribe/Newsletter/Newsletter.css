@@ -1,0 +1,333 @@
+.newsletter-box {
+  background: #1a1a1a; /* Темний професійний фон */
+  border: 1px solid #333;
+  border-radius: 24px;
+  padding: 40px;
+  margin: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Можна додати легкий градієнт на фоні */
+.newsletter-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,107,0,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.newsletter-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.newsletter-text h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.newsletter-text p {
+  color: #999;
+  font-size: 16px;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 12px;
+}
+
+.newsletter-form input {
+  background: #252525;
+  border: 1px solid #444;
+  padding: 14px 20px;
+  border-radius: 12px;
+  color: var(--card-bg);
+  min-width: 300px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.newsletter-form input:focus {
+  border-color: #ff6b00; /* Твій акцентний колір */
+}
+
+.newsletter-btn {
+  background: #ff6b00;
+  color: #fff;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.newsletter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+}
+
+/* Адаптивність для мобілок */
+@media (max-width: 992px) {
+  .newsletter-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .newsletter-form input {
+    min-width: unset;
+    width: 100%;
+  }
+}
+
+
+/* ГОЛОВНИЙ КОНТЕЙНЕР */
+.subscribe {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1140px;
+  margin: 5rem auto;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ДЕКОРАТИВНИЙ ЕЛЕМЕНТ (Світіння) */
+.subscribe::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: var(--accent-color);
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* КОЛОНКИ */
+.left, .right {
+  padding: 60px;
+  flex: 1;
+  z-index: 1;
+}
+
+/* ТЕКСТ ЛІВОРУЧ */
+.left h2 {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+   background: linear-gradient(to right, var(--text-main), var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.left p {
+  color: var(--text-muted, #888);
+  font-size: 16px;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+/* СУЧАСНА ФОРМА (Input + Button як одне ціле) */
+.right form {
+  display: flex;
+  /* background: var(--bg-color);  */
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.right form:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px var(--accent-color-hover); /* Використовуй свій колір замість акценту */
+}
+
+.right input {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  background: transparent;
+  color: var(--border-color);
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+  min-width: 0;
+}
+
+/* КНОПКА */
+.subscribe .right button {
+  padding: 14px 35px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent-color);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.subscribe .right button:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.1);
+  box-shadow: 0 6px 20px var(--accent-color-hover);
+}
+
+.subscribe .right button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* СПІННЕР ЗАВАНТАЖЕННЯ */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--border-color);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ПОВІДОМЛЕННЯ ПРО УСПІХ */
+.status-msg {
+  color: #28a745;
+  font-size: 15px;
+  margin-top: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* АДАПТИВНІСТЬ */
+@media (max-width: 992px) {
+  .subscribe {
+    flex-direction: column;
+    text-align: center;
+    width: 95%;
+    margin: 3rem auto;
+  }
+  
+  .left, .right {
+    padding: 40px 30px;
+    width: 100%;
+  }
+
+  .left h2 {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 600px) {
+  .right form {
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    padding: 0;
+    gap: 10px;
+  }
+
+  .right input {
+    background: var(--border-color-input);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  .subscribe .right button {
+    width: 100%;
+    padding: 16px;
+  }
+}
+
+/* === Social Proof Styles === */
+
+/* Загальний контейнер для аватарок і тексту */
+.social-proof {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px; 
+}
+
+/* Контейнер для стопки картинок */
+.avatars-stack {
+  display: flex;                        
+  padding-left: 5px; 
+}
+
+/* Стилі для кожної аватарки */
+.avatar-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%; 
+  border: 3px solid var(--card-bg); 
+  object-fit: cover;
+  margin-left: -12px; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, z-index 0.2s;
+}
+
+.avatar-img:first-child {
+  margin-left: 0;
+  z-index: 1;
+}
+
+.avatar-img:hover {
+  transform: translateY(-3px) scale(1.05);
+  z-index: 10;
+}
+
+.proof-text {
+  margin: 0; 
+  font-size: 14px;
+  color: var(--text-muted, #888);
+  font-weight: 500;
+}
+
+.proof-text strong {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .social-proof {
+    justify-content: center; 
+  }
+}

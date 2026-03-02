@@ -1,0 +1,507 @@
+/* Оверлей (фон) */
+.modal-overlay_nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* Контентна частина (Grid) */
+.modal-content_nav {
+  background: #ffffff; 
+  width: 100%;
+  max-width: 850px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+}
+
+/* Ліва частина (Текст) */
+.modal-left_nav {
+  padding: 50px;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid #eee;
+}
+
+.modal-badge_nav {
+  background: rgba(0, 102, 255, 0.1);
+  color: #0066ff;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.modal-left_nav h2 {
+  font-size: 30px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+  color: #1a202c;
+}
+
+.modal-left_nav p {
+  color: #4a5568;
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+.modal-features_nav {
+  list-style: none;
+  padding: 0;
+}
+
+.modal-features_nav li {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #2d3748;
+}
+
+.modal-features_nav li span {
+  color: #10b981;
+  font-weight: bold;
+}
+
+/* Права частина (Форма) */
+.modal-right_nav {
+  padding: 50px;
+  background: #f8fafc; /* Або var(--sidebar-bg) */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal-form_nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-form_nav h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #1a202c;
+}
+
+.modal-form_nav input {
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.modal-form_nav input:focus {
+  border-color: #0066ff;
+  box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+}
+
+/* Кнопка */
+.modal-submit-btn_nav {
+  background: #0066ff; /* Або var(--accent-color) */
+  color: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.modal-submit-btn_nav:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 10px 20px rgba(0, 102, 255, 0.2);
+}
+
+/* Чекбокс */
+.modal-checkbox-group_nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  align-items: flex-start;
+  font-size: 13px;
+  text-align: left;
+}
+
+/* Кнопка закриття */
+.close-btn_nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0aec0;
+  z-index: 10;
+  transition: 0.2s;
+}
+
+.close-btn_nav:hover { color: #1a202c; transform: rotate(90deg); }
+
+/* Лоадер всередині кнопки */
+.loader-spinner_nav {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin_nav 0.8s linear infinite;
+}
+
+@keyframes spin_nav { to { transform: rotate(360deg); } }
+
+/* Адаптивність (Mobile) */
+@media (max-width: 768px) {
+  .modal-content_nav { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
+  .modal-left_nav, .modal-right_nav { padding: 30px; }
+  .modal-left_nav { text-align: center; align-items: center; border-right: none; border-bottom: 1px solid #eee; }
+  .modal-badge_nav { margin: 0 auto 15px; }
+}
+
+
+/* ======================== */
+/* Оверлей з розмиттям */
+.modal-overlay_nav {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Контент - Скляна картка */
+.modal-content_nav {
+  background: #0f172a; /* Твій основний колір */
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+  max-width: 850px;
+  width: 95%;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+/* Сітка на фоні */
+.modal-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+
+/* Сяюча пляма зверху */
+.modal-glow-top {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+/* Виправляємо головний контейнер всередині модалки */
+.modal-inner_nav {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  width: 100%;
+  min-height: 450px; 
+}
+
+/* Виправляємо ліву частину */
+.modal-left_nav {
+  padding: 50px;
+  /* Темний напівпрозорий фон, щоб текст було видно */
+  background: rgba(15, 23, 42, 0.4); 
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  text-align: left;
+}
+
+/* Права частина (де форма) */
+.modal-right_nav {
+  padding: 50px;
+  background: transparent; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ВАЖЛИВО: Перевір саму модалку, саме вона має тримати колір */
+.modal-content_nav {
+  background: #0f172a !important; 
+  border-radius: 32px;
+  overflow: hidden;
+  display: flex; 
+}
+
+.modal-badge_nav {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 13px;
+  display: inline-block;
+  margin-bottom: 20px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.modal-left_nav h2 {
+  color: #ffffff; 
+  font-size: 32px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.modal-left_nav p {
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.modal-features_nav {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.modal-features_nav li {
+  color: #e2e8f0;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-features_nav span { color: #38bdf8; font-weight: bold; }
+
+/* Права частина (Форма) */
+/* .modal-right_nav {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+
+.modal-form_nav h3 {
+  color: white;
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+
+.modal-form_nav input[type="email"] {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 12px;
+  color: white;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.modal-form_nav input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.submit-btn_nav {
+  width: 100%;
+  background: #38bdf8;
+  color: #0f172a;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn_nav:hover {
+  background: #7dd3fc;
+  transform: translateY(-2px);
+}
+
+.close-btn_nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.close-btn_nav:hover{
+  color: #7dd3fc;
+}
+/* Лоадер всередині кнопки */
+.loader-spinner_nav {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(15, 23, 42, 0.3);
+  border-top-color: #0f172a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Текст під кнопкою */
+.privacy-text_nav {
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Контент успіху */
+.success-content_nav {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.success-content_nav h3 {
+  color: white;
+  font-size: 24px;
+}
+
+.success-content_nav p {
+  color: #94a3b8;
+}
+
+.modal-checkbox-group_nav label{
+  color: #94a3b8;
+}
+/* Стилізація посилань у чекбоксі */
+.modal-checkbox-group_nav label a {
+  color: #38bdf8;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border 0.3s;
+}
+
+.modal-checkbox-group_nav label a:hover {
+  border-bottom: 1px solid #38bdf8;
+}
+
+/* Кастомізація галочки чекбокса */
+.modal-checkbox-group_nav input[type="checkbox"] {
+  accent-color: #38bdf8;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Кнопка з блискавкою */
+.submit-btn_nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.submit-btn_nav:disabled {
+  background: #64748b;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+
+@media (max-width: 768px) {
+  .modal-inner_nav {
+    grid-template-columns: 1fr; /* Картки стають одна під одною */
+  }
+  
+  .modal-left_nav {
+    padding: 30px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .modal-left_nav h2 {
+    font-size: 24px;
+  }
+
+  .modal-right_nav {
+    padding: 30px;
+  }
+  
+  .modal-content_nav {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto; 
+  }
+}
+
+
+.modal-left_nav h2 {
+  /* Світлий білий з легким блакитним відтінком */
+  color: #f8fafc !important; 
+  font-size: 32px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 10; 
+  
+  /* Додаємо легке світіння тексту, щоб він "випливав" з фону */
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+}
+
+.modal-left_nav p {
+  color: #94a3b8; 
+  position: relative;
+  z-index: 10;
+}
+
+/* Переконайся, що ці елементи не закривають текст */
+.modal-grid-bg, .modal-glow-top {
+  z-index: 1; 
+  pointer-events: none; 
+}

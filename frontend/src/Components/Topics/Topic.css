@@ -1,0 +1,121 @@
+/* ===============================
+   TOPIC / CATEGORIES (LIGHT)
+================================ */
+
+.search_container {
+  max-width: 500px;
+  margin: 0 auto 30px;
+  position: relative;
+  background-color: var(--bg-gradient);
+}
+
+.search_input {
+  width: 100%;
+  padding: 14px 25px;
+  border-radius: 30px; /* Круглий пошук зараз у тренді */
+  border: 1px solid var(--border-color);
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.search_input:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1);
+}
+
+.topic {
+  margin: 70px 0;
+  /* background: var(--bg-color); */
+   /* background: var(--bg-gradient); */
+}
+
+.topic_title {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 40px;
+  letter-spacing: -0.02em;
+}
+
+/* список категорій */
+.topic_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center; 
+  align-items: center; 
+  margin: 0 auto; 
+  max-width: 1400px;
+  width: 100%; 
+  padding: 0 20px; 
+}
+
+/* категорія */
+.topic_list_item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 100px; 
+    font-size: 14px;
+    color: #475569;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.topic_list_item:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(0, 123, 255, 0.05);
+    cursor: pointer;
+}
+
+/* активна категорія */
+.topic_list_item.active {
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border-color: transparent;
+  color: var(--bg-color);
+  box-shadow: 0 12px 30px rgba(0, 123, 255, 0.35);
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+/* планшети */
+@media (max-width: 1024px) {
+  .topic {
+    margin: 60px 0;
+  }
+
+  .topic_title {
+    font-size: 1.6rem;
+  }
+
+  .topic_list_item {
+    padding: 11px 20px;
+    font-size: 13.5px;
+  }
+}
+
+/* мобільні */
+@media (max-width: 600px) {
+  .topic {
+    margin: 45px 0;
+  }
+
+  .topic_title {
+    font-size: 1.4rem;
+  }
+
+  .topic_list {
+    gap: 10px;
+  }
+
+  .topic_list_item {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}

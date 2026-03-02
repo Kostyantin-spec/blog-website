@@ -1,0 +1,60 @@
+.share-section {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.share-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.share-list {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.share-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--sidebar-color);
+  color: var(--icon-share-color);
+  font-size: 1.2rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.share-icon-btn:hover {
+  background-color: var(--brand-color);
+  color: var(--bg-color);
+  /* transform: translateY(-5px); */
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
+  filter: brightness(1.1);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(var(--accent-rgb, 99, 102, 241), 0.3);
+}
+
+.copy-btn:hover {
+  background-color: var(--text-main);
+  color: var(--card-bg);
+}
+
+/* Мобільна адаптація */
+@media (max-width: 480px) {
+  .share-icon-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}

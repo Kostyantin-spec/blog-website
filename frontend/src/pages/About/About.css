@@ -1,0 +1,209 @@
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 180px 0 80px;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem); 
+  font-weight: 900;
+  margin-bottom: 30px;
+  background: linear-gradient(to right, var(--text-main), var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+
+}
+
+.about-hero .subtitle {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #718096;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-mission {
+  margin: 60px auto 100px;
+  padding: 60px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(15px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-main);
+  text-shadow: var(--text-glow);
+  transition: text-shadow 0.3s ease;
+}
+
+.about-mission::before {
+  content: '🛡️';
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  font-size: 100px;
+  opacity: 0.05;
+  transform: rotate(15deg);
+}
+
+.mission-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.mission-content h2 {
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  color: var(--accent-color);
+}
+
+.mission-content p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  text-shadow: var(--text-glow);
+  transition: text-shadow 0.3s ease;
+}
+
+/* АДАПТИВНІСТЬ */
+@media (max-width: 998px) {
+  .about-hero {
+    padding: 100px 20px 60px;
+  }
+  .about-mission {
+    margin: 40px 20px;
+    padding: 40px 25px;
+  }
+}
+
+@media (max-width: 686px) {
+  .about-hero h1 {
+    font-size: 2.2rem;
+  }
+  .about-hero .subtitle {
+    font-size: 1.1rem;
+  }
+  .mission-content h2 {
+    font-size: 1.8rem;
+  }
+}
+
+.team-section {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.team-section h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 50px;
+  position: relative;
+  display: inline-block;
+  color: var(--accent-color);
+  /* text-shadow: var(--text-glow);
+  transition: text-shadow 0.3s ease; */
+  
+}
+
+/* Лінія під заголовком */
+.team-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  margin-top: 50px;
+  max-width: 1100px;
+}
+
+.team-card {
+ background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 40px 30px;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-card:hover {
+ transform: translateY(-10px);
+  border-color: var(--accent-color);
+  box-shadow: var(--shadow-main);
+}
+
+.team-avatar-wrapper {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  padding: 5px;
+  border: 2px solid var(--accent-color);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-color), transparent);
+}
+
+.team-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--bg-color);
+}
+
+.team-role {
+  display: block;
+  color: var(--accent-color);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.team-card p {
+ font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  text-shadow: var(--text-glow);
+  transition: text-shadow 0.3s ease;
+}
+
+/* АДАПТИВНІСТЬ */
+@media (max-width: 686px) {
+  .team-section h2 {
+    font-size: 2.2rem;
+  }
+  .team-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+}

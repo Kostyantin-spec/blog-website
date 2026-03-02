@@ -1,0 +1,230 @@
+/* ===========================================================
+   1. ОСНОВНИЙ ЛАЙАУТ (Grid 1fr + 350px)
+   =========================================================== */
+.blog-list-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 120px 20px 60px; /* Відступ зверху для навбару */
+  background: transparent;
+}
+
+.blog-main-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 40px;
+  align-items: start;
+}
+
+.blog-list-wrapper.blog-intra{
+  padding-bottom:24px ;
+}
+
+/* ===========================================================
+   2. КОНТЕНТ (ЛІВА ЧАСТИНА)
+   =========================================================== */
+.blog-list-main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.blog_grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px;
+  padding-top: 24px;
+}
+
+.blog-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.blog-link:hover {
+  transform: translateY(-8px);
+}
+
+/* ===========================================================
+   3. САЙДБАР (ПРАВА ЧАСТИНА)
+   =========================================================== */
+.sidebar_sticky {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.sidebar-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 25px;
+  box-shadow: var(--shadow-main);
+}
+
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 20px;
+  padding-left: 15px;
+  border-left: 4px solid var(--accent-color);
+}
+
+/* Список популярних постів */
+.popular_posts_list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.popular_post {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.popular_post:hover {
+  background: rgba(56, 189, 248, 0.05);
+  transform: translateX(5px);
+}
+
+.popular_post img {
+  /* width: 70px;
+  height: 70px; */
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.popular_post h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  color: var(--text-main);
+}
+
+/* ===========================================================
+   4. СУЧАСНА ПАГІНАЦІЯ
+   =========================================================== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 60px;
+  padding-bottom: 40px;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 8px;
+}
+
+.page-btn {
+  min-width: 45px;
+  height: 45px;
+  padding: 0 15px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-main);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.page-btn.active {
+  background: var(--accent-color) !important;
+  color: #fff !important;
+  border-color: var(--accent-color);
+  box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+}
+
+.page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-btn {
+  min-width: 100px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+/* ===========================================================
+   5. АДАПТИВНІСТЬ (MOBILE & TABLET)
+   =========================================================== */
+
+/* Планшети (сайдбар падає вниз) */
+@media (max-width: 1100px) {
+  .blog-main-layout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  
+  .sidebar_sticky {
+    position: static;
+    order: 2;
+  }
+  
+  .blog-list-main {
+    order: 1;
+  }
+
+  .popular_posts_list {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Сайдбар стає у 2 колонки */
+    gap: 20px;
+  }
+}
+
+/* Телефони (все в одну колонку) */
+@media (max-width: 768px) {
+  .blog_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .popular_posts_list {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-header h1 {
+    font-size: 2rem;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+  
+  .nav-btn {
+    width: 100%;
+    order: 2;
+  }
+  
+  .page-numbers {
+    width: 100%;
+    justify-content: center;
+    order: 1;
+  }
+}

@@ -1,0 +1,406 @@
+/* =====================================
+   ГОЛОВНИЙ КОНТЕЙНЕР
+   ===================================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.navbar-container {
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ЛОГОТИП */
+.nav_logo a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav_logo h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.logo_img {
+  height: 35px;
+  width: auto;
+}
+
+/* =====================================
+   ОСНОВНЕ МЕНЮ (ДЕКСТОП)
+   ===================================== */
+.nav_menu ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 15px;
+}
+
+.nav_menu a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* Ховер для звичайних посилань (Блог, Про нас) */
+.nav_menu a:hover, 
+.nav_menu a.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* 1. СКАСОВУЄМО БІЛИЙ ФОН ДЛЯ БАТЬКІВСЬКОГО LI */
+.nav_menu ul li.nav-item.dropdown:hover {
+    background-color: transparent !important; /* Прибираємо #f1f5f9 */
+    background: transparent !important;
+}
+
+/* 2. ПЕРЕКОНУЄМОСЯ, ЩО САМА КНОПКА МАЄ СВІЙ ЗОЛОТИЙ ФОН */
+.nav_menu ul li.nav-item.dropdown:hover .nav-gold-trigger,
+.nav_menu ul li.nav-item.dropdown .nav-gold-trigger:hover {
+    background-color: rgba(245, 158, 11, 0.15) !important;
+    color: #f59e0b !important;
+    border-color: #f59e0b !important;
+}
+
+/* 3. ДЛЯ МОБІЛКИ (ПРОФІЛАКТИКА) */
+@media (max-width: 1024px) {
+    .nav_menu ul li.nav-item:hover {
+        background-color: transparent !important;
+    }
+}
+
+/* =====================================
+   ФІРМОВА КНОПКА "ТОП ІНСТРУМЕНТИ"
+   ===================================== */
+/* ==================================================
+   1. СТИЛЬ КНОПКИ TRIGGER (ТОП ІНСТРУМЕНТИ)
+   ================================================== */
+.nav-gold-trigger {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.05);
+  color: #f59e0b;
+  transition: all 0.3s ease;
+}
+
+.nav-item.dropdown:hover .nav-gold-trigger {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #f59e0b;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ==================================================
+   2. ЛОГІКА МЕНЮ (АДАПТИВНА СІТКА ТА ХОВЕР)
+   ================================================== */
+.nav-item.dropdown {
+  position: relative;
+}
+
+/* ==================================================
+   ЛОГІКА МЕНЮ: ГІБРИД (СІТКА VS СПИСОК)
+   ================================================== */
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 10px;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 15px;
+  z-index: 100;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  
+  display: none; /* Приховано за замовчуванням */
+  gap: 10px;
+  list-style: none;
+}
+
+/* 1. АДАПТИВНА СІТКА (СТАТИЧНИЙ ВИГЛЯД - ЯКЩО МЕНЮ ВІДКРИТЕ) */
+@media (min-width: 1700px) {
+  .nav-item.dropdown .dropdown-menu {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Для 1400px - 1699px -> 2 колонки */
+@media (min-width: 1400px) and (max-width: 1699px) {
+  .nav-item.dropdown .dropdown-menu {
+   display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px; 
+    padding: 20px;
+    left: -50%;
+  }
+}
+@media (min-width: 1000px) and (max-width: 1399px) {
+  .nav-item.dropdown .dropdown-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 550px;
+  }
+}
+
+/* 2. ПРИ ХОВЕРІ (ЗАВЖДИ В 1 СТОВПЧИК) */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: flex !important;         
+  flex-direction: column !important; 
+  width: 320px !important;          
+  grid-template-columns: none !important; 
+}
+
+/* Стилі посилань */
+.dropdown-menu li { width: 100%; }
+.dropdown-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  color: #94a3b8;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.dropdown-menu li a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #38bdf8;
+  padding-left: 20px;
+}
+
+.dropdown-menu li a svg {
+  stroke: #64748b;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu li a:hover svg {
+  stroke: #38bdf8;
+}
+
+.nav-links a.active {
+  color: #38bdf8; /* Блакитний для хостингу/конструкторів */
+  border-bottom: 2px solid #38bdf8;
+}
+
+/* Якщо ми на сторінці маркетингу, можна зробити зелений акцент */
+.nav-links a[href="/marketing"].active {
+  color: #10b981; 
+  border-bottom: 2px solid #10b981;
+}
+/* =====================================
+   КНОПКА ТОП-10 ТА ACTIONS
+   ===================================== */
+.nav_actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-top10-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  color: #000;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  margin-left: 10px;
+  transition: 0.3s;
+}
+
+.nav-top10-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+}
+
+.btn-badge {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 20px;
+  border: 2px solid #0f172a;
+}
+
+.admin_icon_link {
+  color: #94a3b8;
+  font-size: 1.2rem;
+  display: flex;
+  transition: 0.3s;
+}
+
+.admin_icon_link:hover {
+  color: #f59e0b;
+}
+
+.mobile_toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* =====================================
+   АДАПТИВНІСТЬ (МОБІЛЬНА ВЕРСІЯ)
+   ===================================== */
+@media (max-width: 1024px) {
+  .mobile_toggle {
+    display: block;
+    z-index: 1001;
+  }
+
+  .nav_menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: #0f172a;
+    padding: 80px 20px;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .nav_menu.open {
+    right: 0;
+  }
+
+  .nav_menu ul {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 8px !important;
+  }
+
+  .nav-item.dropdown {
+    width: 100%;
+    display: block;
+  }
+
+  .nav-gold-link.dropdown-toggle {
+    width: 100%;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px;
+  }
+
+  /* Випадаюче меню в мобілці - вбудоване */
+  .nav-item.dropdown .dropdown-menu {
+    position: static !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: none !important;
+    border-left: 2px solid #f59e0b !important;
+    margin: 10px 0 10px 10px !important;
+    padding: 0 0 0 15px !important;
+    box-shadow: none !important;
+    width: auto !important;
+    transform: none !important;
+  }
+
+  .dropdown-menu li a {
+    padding: 12px 0 !important;
+    font-size: 1rem !important;
+  }
+
+  .nav-top10-btn {
+    width: 100%;
+    margin: 20px 0 0 0 !important;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav_menu {
+    width: 100%;
+  }
+}
+
+
+
+/* =====================================
+   АНІМАЦІЇ
+   ===================================== */
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========crm */
+.nav-item {
+  color: #94a3b8;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 8px 15px;
+}
+
+.nav-item:hover {
+  color: #38bdf8;
+}
+
+/* Ефект для активного пункту CRM */
+.active-neon {
+  color: #38bdf8 !important;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+  border-bottom: 2px solid #38bdf8;
+}
