@@ -18,8 +18,10 @@ const app = express();
 
 // 🔥 ВАЖЛИВО
 app.use(cors({
-  origin: 'https://blog-website-rust-xi.vercel.app/', // Встав сюди адресу свого сайту на Vercel
-  credentials: true
+  origin: ['https://blog-website-rust-xi.vercel.app', 'https://blog-website-rust-xi.vercel.app/'], 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json({ limit: '50mb' }));
