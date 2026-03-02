@@ -36,10 +36,7 @@ frontend/.env
 Thumbs.db
 
 # Результати збірки фронтенду
-dist/
-frontend/dist/
-build/
-frontend/build/
+
 
 # Cache
 .eslintcache
