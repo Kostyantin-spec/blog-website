@@ -1,25 +1,25 @@
 import axios from "axios";
 
-// 1. Створюємо екземпляр з базовими налаштуваннями
-const API = axios.create({ 
-  baseURL: "https://blog-backend-api-n5q7.onrender.com/api" 
+const API = axios.create({
+  baseURL: "https://blog-backend-api-n5q7.onrender.com/api"
 });
 
-// 2. Додаємо перехоплювач для токена
-API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token"); 
-  if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
+// Ця магія спрацьовує ПЕРЕД кожним запитом
+API.interceptors.request.use(
+  (config) => {
+    // Ми беремо НАЙСВІЖІШИЙ токен прямо з пам'яті перед відправкою
+    const adminData = localStorage.getItem("adminData");
+    if (adminData) {
+      const { token } = JSON.parse(adminData);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return req;
-}, (error) => {
-  return Promise.reject(error);
-});
+);
 
-// 3. Іменовані експорти для конкретних функцій (Named Exports)
-export const fetchBlogs = () => API.get("/blogs");
-export const fetchBlogBySlug = (slug) => API.get(`/blogs/${slug}`);
-export const createBlog = (data) => API.post("/blogs", data);
-
-// 4. ДЕФОЛТНИЙ ЕКСПОРТ (те, що шукає Modal.jsx)
 export default API;
