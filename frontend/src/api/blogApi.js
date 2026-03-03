@@ -8,16 +8,19 @@ const API = axios.create({
 // 2. Додаємо інтерцептор для динамічного токена
 API.interceptors.request.use(
   (config) => {
+    // Спочатку шукаємо в adminData
     const adminData = localStorage.getItem("adminData");
+    let token = localStorage.getItem("token"); // Шукаємо також просто token
+
     if (adminData) {
       try {
         const parsed = JSON.parse(adminData);
-        if (parsed && parsed.token) {
-          config.headers.Authorization = `Bearer ${parsed.token}`;
-        }
-      } catch (e) {
-        console.error("Token parse error", e);
-      }
+        if (parsed?.token) token = parsed.token;
+      } catch (e) {}
+    }
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
