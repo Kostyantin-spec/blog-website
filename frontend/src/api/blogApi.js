@@ -6,26 +6,25 @@ const API = axios.create({
 });
 
 // 2. Додаємо інтерцептор для динамічного токена
-API.interceptors.request.use(
-  (config) => {
-    // Спочатку шукаємо в adminData
-    const adminData = localStorage.getItem("adminData");
-    let token = localStorage.getItem("token"); // Шукаємо також просто token
+API.interceptors.request.use((config) => {
+    // Спочатку пробуємо дістати з adminData, якщо не вийде — беремо "token"
+    const adminDataRaw = localStorage.getItem("adminData");
+    let token = localStorage.getItem("token");
 
-    if (adminData) {
-      try {
-        const parsed = JSON.parse(adminData);
-        if (parsed?.token) token = parsed.token;
-      } catch (e) {}
+    if (adminDataRaw) {
+        try {
+            const adminData = JSON.parse(adminDataRaw);
+            token = adminData.token;
+        } catch (e) {
+            console.error("Помилка парсингу adminData");
+        }
     }
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-  },
-  (error) => Promise.reject(error)
-);
+});
 
 // 3. ПОВЕРТАЄМО ЕКСПОРТИ, ЯКИХ НЕ ВИСТАЧАЛО (для BlogContext та інших)
 export const fetchBlogs = () => API.get("/blogs");

@@ -7,24 +7,15 @@ export const AuthProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const checkAuth = () => {
-      const savedAdmin = localStorage.getItem("adminData");
-      if (savedAdmin) {
-        try {
-          const parsedAdmin = JSON.parse(savedAdmin);
-          setAdmin(parsedAdmin);
-          // 2. Налаштовуємо заголовок саме в нашому API
-          API.defaults.headers.common["Authorization"] = `Bearer ${parsedAdmin.token}`;
-        } catch (error) {
-          console.error("Помилка парсингу adminData:", error);
-          localStorage.removeItem("adminData");
-        }
-      }
-      setLoading(false);
-    };
-    checkAuth();
-  }, []);
+ useEffect(() => {
+  const savedData = localStorage.getItem("adminData");
+  if (savedData) {
+    const data = JSON.parse(savedData);
+    setAdmin(data);
+    // ВАЖЛИВО: встановлюємо заголовок при кожному завантаженні сайту
+    API.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+  }
+}, []);
 
   const login = (data) => {
     setAdmin(data);

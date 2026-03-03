@@ -13,30 +13,21 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-   const handleLogin = async (e) => {
+ const handleLogin = async (e) => {
   e.preventDefault();
   setError("");
 
   try {
-    const { data } = await API.post("/admin/login", {
-      email,
-      password,
-    });
+    const { data } = await API.post("/admin/login", { email, password });
 
     if (data.token) {
-      // 1. Спочатку зберігаємо в локалсторедж
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("adminData", JSON.stringify(data));
-
-      // 2. Оновлюємо контекст (це важливо!)
+      // Передаємо дані в контекст, а контекст сам розбереться зі збереженням
       login(data); 
-
-      // 3. М'який перехід через React Router (БЕЗ ПЕРЕЗАВАНТАЖЕННЯ)
-      // Це прибере помилку 404 Not Found
+      
+      // Перенаправляємо
       navigate("/admin/dashboard");
     }
   } catch (error) {
-    console.error("Помилка авторизації:", error);
     setError(error.response?.data?.message || "Помилка входу");
   }
 };

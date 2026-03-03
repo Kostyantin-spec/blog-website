@@ -21,6 +21,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
+        console.log("Заголовок Authorization зараз:", API.defaults.headers.common["Authorization"]);
         const { data } = await API.get("/blogs");
         setBlogs(data);
       } catch (err) {
