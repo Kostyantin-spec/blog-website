@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // import Editor from 'react-simple-code-editor';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 import "./AddPost.css";
 import CodeEditorInput from "../../Components/CodeEditor/CodeEditor";

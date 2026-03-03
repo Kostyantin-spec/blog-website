@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import FAQCRM from '../../Components/FAQHosting/FAQCRM';
 import './TopTools.css';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 
 const TopToolsCRM = () => {

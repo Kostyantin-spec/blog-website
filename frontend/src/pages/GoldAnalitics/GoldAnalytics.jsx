@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 import { FaArrowLeft, FaChartLine, FaTrophy, FaMousePointer, FaClock } from "react-icons/fa";
 import "./GoldAnalitics.css"; 
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Advert.css";
 import { useNavigate } from "react-router-dom";
 import createUnifiedPayload from '../../../../backend/utils/createUnifiedPayload';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 
 const Advert = () => {

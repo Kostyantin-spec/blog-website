@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './TopTools.css';
 import FAQBuilders from '../../Components/FAQHosting/FAQBuilders';
 import { Helmet } from 'react-helmet-async';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 const allBuilders = [
   {

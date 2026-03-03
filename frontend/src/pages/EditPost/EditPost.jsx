@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CodeEditorInput from "../../Components/CodeEditor/CodeEditor"; 
 import MyEditor from "../../Components/Editor/MyEditor";
 import "./EditPost.css";
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
  import {TEAM_MEMBERS, blog_categories, blog_tags } from '../../data.jsx';
 

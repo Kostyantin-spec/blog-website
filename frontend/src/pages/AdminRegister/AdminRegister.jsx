@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 import '../AdminLogin/AdminLogin.css';
 
 const AdminRegister = () => {

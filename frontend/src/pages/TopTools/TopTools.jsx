@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './TopTools.css';
 import { Helmet } from 'react-helmet-async';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 const PromoBanner = ({ count }) => (
   <div className="promo-info-banner">

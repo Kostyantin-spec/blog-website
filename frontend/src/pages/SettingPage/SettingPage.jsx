@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../AuthContext';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 import { FaSave, FaLink, FaInfoCircle, FaVial, FaCheckCircle, FaExclamationTriangle, FaBullhorn, FaComments, FaEnvelope } from 'react-icons/fa';
 import './SettingPage.css';
 

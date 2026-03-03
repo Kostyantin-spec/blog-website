@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 import Skeleton from "../../Components/Skeleton/Skeleton"; 
 import "./SearchPage.css";
 

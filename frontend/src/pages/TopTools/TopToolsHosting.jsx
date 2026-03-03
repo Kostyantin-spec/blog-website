@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import './TopTools.css';
 import FAQHosting from '../../Components/FAQHosting/FAQHosting';
 import { Helmet } from 'react-helmet-async';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 const allHostings = [{
     id: 1,

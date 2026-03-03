@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Subscribe.css";
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 
 const Subscribe = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 import './RelatedPosts.css';
 
 const RelatedPosts = ({ category, currentId }) => {

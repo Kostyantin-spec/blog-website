@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./SupportAndRating.css"; 
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 const SupportAndRating = ({ postId }) => {
   const [rated, setRated] = useState(false);

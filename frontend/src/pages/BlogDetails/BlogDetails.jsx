@@ -17,7 +17,7 @@ import '../../Components/Typography/Typography.css'
 import { FaHome } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 import SupportAndRating from "../../Components/SupportAndRating/SupportAndRating";
 import FAQ from "../../Components/FAQ/FAQ";

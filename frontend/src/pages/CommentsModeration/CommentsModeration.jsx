@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 import './CommentsModeration.css';
 
 const CommentsModeration = () => {

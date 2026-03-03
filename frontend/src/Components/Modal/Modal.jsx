@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import { BsLightningCharge, BsCheckCircle } from "react-icons/bs";
 import { createUnifiedPayload } from '../../../../backend/utils/createUnifiedPayload';
 import './Modal.css';
-import API from '../../api/blogApi';
+import API from '../../api/blogApi.js';
 
 const Modal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
