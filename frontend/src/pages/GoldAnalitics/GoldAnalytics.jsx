@@ -9,40 +9,46 @@ const GoldAnalytics = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const fetchStats = async () => {
-    try {
-      
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("❌ Токен не знайдено. Перелогіньтесь.");
-        setLoading(false);
-        return;
-      }
-
-      const config = { 
-        headers: { Authorization: `Bearer ${token}` } 
-      };
-
-      
-      const { data } = await API.get("/blogs/gold-stats", config);
-      setStats(data);
-
-      
-      const settingsRes = await API.get('/admin/settings', config);
-      let { makeWebhookUrl, syncNewPosts } = settingsRes.data;
-
-      if (makeWebhookUrl && makeWebhookUrl.includes('https://hook')) {
-         const cleanUrl = makeWebhookUrl.split('https').filter(Boolean)[0];
-         const finalUrl = 'https' + cleanUrl;
-         console.log("🔗 Webhook статус:", syncNewPosts ? "Активний" : "Вимкнений", "URL:", finalUrl);
-      }
-
-    } catch (error) {
-      console.error("❌ Помилка завантаження статистики:", error.response?.data?.message || error.message);
-    } finally {
+ const fetchStats = async () => {
+  try {
+    // 1. Беремо актуальні дані з localStorage
+    const savedData = localStorage.getItem("adminData");
+    if (!savedData) {
+      console.error("❌ Токен не знайдено. Перелогіньтесь.");
       setLoading(false);
+      return;
     }
-  };
+
+    const { token } = JSON.parse(savedData);
+    
+    // 2. Виконуємо запити БЕЗ ручних config, 
+    // бо API інтерцептор автоматично додасть заголовок Authorization
+    // Але якщо хочеш бути на 100% впевненою — залишаємо заголовок явним (як нижче):
+
+    const { data: statsData } = await API.get("/blogs/gold-stats", {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    setStats(statsData);
+
+    const settingsRes = await API.get('/admin/settings', {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    let { makeWebhookUrl, syncNewPosts } = settingsRes.data;
+
+    if (makeWebhookUrl && makeWebhookUrl.includes('https://hook')) {
+        // Тут ми залишили твою логіку очищення URL
+        const cleanUrl = makeWebhookUrl.split('https').filter(Boolean)[0];
+        const finalUrl = 'https' + cleanUrl;
+        console.log("🔗 Webhook статус:", syncNewPosts ? "Активний" : "Вимкнений", "URL:", finalUrl);
+    }
+
+  } catch (error) {
+    console.error("❌ Помилка завантаження статистики:", error.response?.data?.message || error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchStats();
