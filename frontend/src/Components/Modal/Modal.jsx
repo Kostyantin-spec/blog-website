@@ -5,6 +5,7 @@ import { IoClose } from "react-icons/io5";
 import { BsLightningCharge, BsCheckCircle } from "react-icons/bs";
 import { createUnifiedPayload } from '../../../../backend/utils/createUnifiedPayload';
 import './Modal.css';
+import API from '../../api/blogApi';
 
 const Modal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -38,28 +39,26 @@ const Modal = ({ isOpen, onClose }) => {
   const email = e.target.email.value;
   setLoading(true);
 
-  // Отримуємо URL, який ми зберегли в адмінці
-  const webhookUrl = localStorage.getItem("makeWebhookUrl") || "http://localhost:5000/api/send-to-make";
-
   // 1. Формуємо дані як "блог-дані"
   const blogData = {
-    authorEmail: e.target.email.value, 
+    authorEmail: email, 
     title: "Завантаження ТОП-10 сервісів",
     description: "Користувач завантажив PDF через попап",
     slug: "top-10-tools-download"
   };
 
-  // 2. Використовуємо уніфікований формат
-  const payload = createUnifiedPayload("exit_intent_popup", blogData, { siteName: "marketingkit.com" });
+  // 2. Використовуємо уніфікований формат payload
+  const payload = createUnifiedPayload("exit_intent_popup", blogData, { 
+    siteName: "marketingkit.com" 
+  });
 
   try {
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload), // ВІДПРАВЛЯЄМО УНІФІКОВАНИЙ ОБ'ЄКТ
-    });
+    // 3. Відправляємо через наш централізований API клієнт
+    // Він автоматично постукає на твій Render (/api/send-to-make)
+    const response = await API.post("/send-to-make", payload);
 
-    if (response.ok) {
+    // Axios вважає успішним статус 2xx
+    if (response.status === 200 || response.status === 201) {
       setSuccess(true);
       downloadPDF();
       
@@ -71,8 +70,8 @@ const Modal = ({ isOpen, onClose }) => {
       throw new Error("Сервер не відповів");
     }
   } catch (err) {
-    console.error("Помилка відправки:", err);
-    alert("Виникла помилка. Спробуйте пізніше.");
+    console.error("Помилка відправки попапа:", err);
+    alert("Виникла помилка. Спробуйте пізніше або зверніться в підтримку.");
   } finally {
     setLoading(false);
   }

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { BsSend, BsCheckCircle } from "react-icons/bs";
 import createUnifiedPayload from '../../../../../backend/utils/createUnifiedPayload'
 import './Newsletter.css';
+import API from '../../api/blogApi';
 
 const socialAvatars = [
   "https://i.pravatar.cc/150?img=47",
@@ -33,19 +34,21 @@ const Newsletter = () => {
   const payload = createUnifiedPayload("footer_subscription", blogData, { siteName: "marketingkit.com" });
 
   try {
-    const webhookUrl = localStorage.getItem("makeWebhookUrl") || "http://localhost:5000/api/send-to-make";
-    
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload), 
-    });
+  // 1. Відправляємо дані на наш бекенд (Render)
+  // Наш сервер сам знає актуальний URL Make.com із налаштувань у базі
+  const response = await API.post("/send-to-make", payload);
 
-    if (response.ok) {
-      setSuccess(true);
-      // Можна додати автоматичне очищення форми через 2 секунди
-      e.target.reset();
-    }
+  // 2. Axios вважає успішним статус 2xx (200, 201)
+  if (response.status === 200 || response.status === 201) {
+    setSuccess(true);
+    
+    // Очищаємо форму (через e.target.reset або занулення стейтів)
+    if (e.target.reset) e.target.reset();
+    
+    console.log("Дані успішно передані на бекенд для Make.com");
+  } else {
+    alert("Помилка при відправці. Спробуйте пізніше.");
+  }
   } catch (err) {
     console.error("Помилка:", err);
   } finally {

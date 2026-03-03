@@ -21,7 +21,6 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        // const { data } = await axios.get("http://localhost:5000/api/blogs");
         const { data } = await API.get("/blogs");
         setBlogs(data);
       } catch (err) {

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Subscribe.css";
+import API from '../../api/blogApi';
 
 
 const Subscribe = () => {
@@ -23,22 +24,20 @@ const Subscribe = () => {
     setLoading(true);
 
     try {
-     
-      const response = await fetch("http://localhost:5000/api/forms/universal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          name: "Підписник", 
-          source: "newsletter_footer", 
-          text: "Підписка на розсилку маркетингових кейсів"
-        }),
-      });
+  // 1. Використовуємо наш API клієнт (він сам знає адресу Render)
+  // Відправляємо дані на універсальний роут форм
+  const response = await API.post("/forms/universal", {
+    email: email,
+    name: "Підписник", 
+    source: "newsletter_footer", 
+    text: "Підписка на розсилку маркетингових кейсів"
+  });
 
-      if (response.ok) {
-        console.log("Успішно! Готуємо редірект...");
-        setEmail("");
-        setAgreed(false);
+  // 2. Axios вважає успішним статус 2xx
+  if (response.status === 200 || response.status === 201) {
+    console.log("Успішно! Готуємо редірект...");
+    setEmail("");
+    setAgreed(false);
         
         // Додаємо невелику затримку, щоб стан встиг оновитися
         setTimeout(() => {

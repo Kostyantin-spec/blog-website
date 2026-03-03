@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import "./SupportAndRating.css"; 
-import axios from "axios";
+import API from '../../api/blogApi';
 
 const SupportAndRating = ({ postId }) => {
   const [rated, setRated] = useState(false);
   const [hover, setHover] = useState(0);
 
   const handleRate = async (starsCount) => {
-    setRated(true);
-    try {
-     const response = await axios.post(`http://localhost:5000/api/blogs/${postId}/rate`, { 
+  setRated(true);
+  try {
+    // baseURL автоматично додасть адресу Render
+    const response = await API.post(`/blogs/${postId}/rate`, { 
       rating: starsCount 
     });
     console.log("Відповідь сервера:", response.data);

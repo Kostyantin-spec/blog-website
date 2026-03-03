@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../api/blogApi';
 import './RelatedPosts.css';
 
 const RelatedPosts = ({ category, currentId }) => {
@@ -9,7 +9,7 @@ const RelatedPosts = ({ category, currentId }) => {
   useEffect(() => {
     const fetchRelated = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/blogs/related?category=${category}&currentId=${currentId}`);
+        const res = await API.get(`/blogs/related?category=${category}&currentId=${currentId}`);
         setRelated(res.data);
       } catch (err) {
   // Виведемо саме ТЕКСТ помилки від сервера
