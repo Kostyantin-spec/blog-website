@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -34,70 +34,73 @@ const AdminDashboard = () => {
 
 const [isProcessing, setIsProcessing] = useState(false);
 
-const handleReshare = async ( blog) => {
-  if (isProcessing) return; // Якщо вже вантажиться — ігноруємо клік
- 
-  // 🛡️ Захист №1: Перевіряємо чи прийшов блог
-  if (!blog || !blog.slug) {
-    console.error("❌ Помилка: Об'єкт блогу не отримано!");
-    return;
-  }
+const handleReshare = async (blog) => {
+  if (isProcessing) return;
+  if (!blog || !blog.slug) return;
+  
   setIsProcessing(true);
   try {
-    // Оновлюємо UI локально
-    setBlogs(prev => prev.map(b => 
-      b.slug === blog.slug ? { ...b, reshareCount: (b.reshareCount || 0) + 1 } : b
-    ));
-
-    // Запит на сервер (база даних)
+    // 1. Оновлення бази (через наш розумний API)
     await API.post(`/blogs/${blog.slug}/reshare`);
 
-    // Отримуємо налаштування
+    // 2. Отримання налаштувань
     const settingsRes = await API.get('/admin/settings');
     let { makeWebhookUrl, siteName, syncNewPosts } = settingsRes.data;
 
-    // 🛡️ Захист №2: ЛІКУЄМО URL (якщо він склеївся)
-    if (makeWebhookUrl && makeWebhookUrl.includes('https://hook')) {
-       // Беремо тільки першу частину до другого входу https
-       const cleanUrl = makeWebhookUrl.split('https').filter(Boolean)[0];
-       makeWebhookUrl = 'https' + cleanUrl;
+    if (syncNewPosts && makeWebhookUrl) {
+      const payload = createUnifiedPayload("reshare", blog, { siteName });
+      
+      // ЯКЩО makeWebhookUrl це твій бекенд — використовуй API.post
+      // ЯКЩО це зовнішній лінк Make.com — axios.post працює, але БЕЗ заголовків
+      await axios.post(makeWebhookUrl.trim(), payload); 
+      
+      setBlogs(prev => prev.map(b => 
+        b.slug === blog.slug ? { ...b, reshareCount: (b.reshareCount || 0) + 1 } : b
+      ));
+      alert(`✅ Готово!`);
     }
-
-
-if (syncNewPosts && makeWebhookUrl) {
-  // Викликаємо твою функцію
-  const payload = createUnifiedPayload("reshare", blog, { siteName });
-
-  console.log("📦 Універсальний Payload для Make:", payload);
-
-  await axios.post(makeWebhookUrl.trim(), payload);
-  // ✅ ВІЗУАЛЬНИЙ ВІДГУК
-    alert(`✅ Готово! Стаття "${blog.title}" відправлена в Make.com`);
-  console.log("✅ Дані відправлено через універсальний пейлоад!");
-}
-
   } catch (error) {
-    console.error("⚠️ Помилка репосту:", error.message);
+    console.error("Помилка:", error);
+    // Якщо 401 — пропонуємо перелогін
+    if (error.response?.status === 401) {
+       alert("Потрібно увійти знову.");
+       window.location.href = "/admin/login";
+    }
+  } finally {
+    setIsProcessing(false);
   }
 };
 
 
   const handleDelete = async (slug) => {
-    if (!window.confirm("Видалити статтю?")) return;
-    try {
-      await API.delete(`/blogs/${slug}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setBlogs(prev => prev.filter(blog => blog.slug !== slug));
-    } catch (error) {
-      alert("Помилка видалення");
-    }
-  };
+  if (!window.confirm("Видалити статтю?")) return;
+  
+  try {
+    // ВАЖЛИВО: ми прибрали { headers: ... }, бо API сам додасть токен
+    await API.delete(`/blogs/${slug}`); 
+    
+    setBlogs(prev => prev.filter(blog => blog.slug !== slug));
+  } catch (error) {
+    console.error("Помилка видалення:", error);
+    // Показуємо реальну причину помилки від сервера, а не просто "Помилка"
+    alert(error.response?.data?.message || "Помилка видалення");
+  }
+};
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/admin/login");
-  };
+  // 1. Видаляємо всі ключі, що стосуються адмінки
+  localStorage.removeItem("token");
+  localStorage.removeItem("adminData");
+
+  // 2. Видаляємо заголовок з нашого API (це вкрай важливо!)
+  delete API.defaults.headers.common["Authorization"];
+
+  // 3. Перенаправляємо на логін
+  navigate("/admin/login");
+  
+  // 4. (Опціонально) Перезавантажуємо сторінку, щоб повністю скинути стан React
+  window.location.reload(); 
+};
 
   if (loading) return <div className="loader-container"><div className="spinner"></div></div>;
   

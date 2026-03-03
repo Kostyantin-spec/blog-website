@@ -148,96 +148,60 @@ const addFaq = () => {
   setFaqs([...faqs, { question: "", answer: "" }]);
 };
 
-const handleFaqChange = (index, field, value) => {
-  const updatedFaqs = [...faqs];
-  updatedFaqs[index][field] = value;
-  setFaqs(updatedFaqs);
-};
-
-const removeFaq = (index) => {
-  setFaqs(faqs.filter((_, i) => i !== index));
-};
-
-
 const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
 
-  const adminData = JSON.parse(localStorage.getItem('adminData'));
-  const token = adminData?.token || localStorage.getItem('adminToken') || localStorage.getItem('token');
-
-  if (!token) {
-    alert("Ваша сесія закінчилася. Будь ласка, залогіньтесь знову.");
-    setLoading(false);
-    return;
-  }
-
-  const dataToSend = new FormData();
-  const baseSlug = formData.slug?.trim() || generateSlug(formData.title);
-  const uniqueSlug = `${baseSlug}-${Math.floor(Math.random() * 1000)}`;
-
   try {
+    // 1. Отримуємо налаштування (БЕЗ ручних заголовків!)
     let utmSource = 'admin_panel';
     let globalSettings = {};
 
     try {
-      const settingsRes = await API.get('/admin/settings', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const settingsRes = await API.get('/admin/settings'); // API сам підставить токен
       globalSettings = settingsRes.data;
       if (globalSettings.siteName) {
         utmSource = globalSettings.siteName.replace(/\s+/g, '_').toLowerCase();
       }
-    } catch {
-      console.log("Використовуємо стандартні налаштування");
+    } catch (err) {
+      console.warn("Не вдалося отримати налаштування, використовуємо стандартні");
     }
 
-    // Формуємо FormData
+    // 2. Формуємо дані
+    const dataToSend = new FormData();
+    const baseSlug = formData.slug?.trim() || generateSlug(formData.title);
+    const uniqueSlug = `${baseSlug}-${Math.floor(Math.random() * 1000)}`;
+
     Object.keys(formData).forEach(key => {
       if (key === 'slug') dataToSend.append("slug", uniqueSlug);
       else dataToSend.append(key, formData[key] || "");
     });
 
-    const finalFaqs = faqs.filter(f => f.question?.trim());
-    dataToSend.append("faqs", JSON.stringify(finalFaqs));
+    dataToSend.append("faqs", JSON.stringify(faqs.filter(f => f.question?.trim())));
     if (imageFile) dataToSend.append("blog_image", imageFile);
 
-    // Відправка на сервер
-    const response = await API.post("/blogs", dataToSend, {
-      // headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
-      headers: { "Content-Type": "multipart/form-data" }
-    });
+    // 3. Відправка на сервер (API автоматично додасть заголовки)
+    // Важливо: Content-Type для FormData браузер додасть САМ, не треба його вказувати вручну
+    const response = await API.post("/blogs", dataToSend);
 
     alert("Стаття успішно створена! 🎉");
     localStorage.removeItem('draft_post');
 
-    // --- 🚀 Відправка в Make.com / соцмережі ---
-    try {
-      const webhookUrl = globalSettings?.makeWebhookUrl;
-      const isSyncEnabled = globalSettings?.syncNewPosts;
+    // 4. Синхронізація з Make.com (через твій бекенд)
+    if (globalSettings?.syncNewPosts) {
+      const payload = createUnifiedPayload("add_post", {
+        ...formData,
+        slug: uniqueSlug,
+        blog_image: response.data.blog?.blog_image || imageFile?.name || ""
+      }, globalSettings);
 
-      if (isSyncEnabled && webhookUrl && webhookUrl.startsWith('http')) {
-        // Створюємо уніфікований payload
-        const payload = createUnifiedPayload("add_post", {
-          ...formData,
-          slug: uniqueSlug,
-          blog_image: response.data.blog?.blog_image || imageFile?.name || ""
-        }, globalSettings);
-
-        // await API.post(webhookUrl, payload);
-        // Бекенд сам візьме webhookUrl з бази даних
-        await API.post("/send-to-make", payload);
-        console.log("🚀 Дані для соцмереж відправлено в Make");
-      }
-    } catch (automationErr) {
-      console.error("⚠️ Помилка автоматизації:", automationErr.message);
+      await API.post("/send-to-make", payload);
+      console.log("🚀 Дані для соцмереж відправлено");
     }
 
-    navigate("/admin/dashboard");
-
-  } catch (err) {
-    console.error("❌ Помилка при відправці:", err.response?.data || err.message);
-    alert(err.response?.data?.message || "Помилка при створенні.");
+  } catch (error) {
+    console.error("Помилка:", error);
+    alert(error.response?.data?.message || "Сталася помилка при збереженні");
   } finally {
     setLoading(false);
   }
@@ -379,18 +343,7 @@ const handleSubmit = async (e) => {
       </div>
     </div>
 
-    {/* Нове поле для резюме автора */}
-    <div className="author-bio-edit">
-      <label className="sub-label">Резюме автора (відображається в статті)</label>
-      <textarea
-        name="author_bio"
-        value={formData.author_bio}
-        onChange={(e) => setFormData({ ...formData, author_bio: e.target.value })}
-        placeholder="Напишіть коротке резюме автора..."
-        className="author-bio-textarea"
-        rows="4"
-      />
-    </div>
+    
   </div>
 </div>
 

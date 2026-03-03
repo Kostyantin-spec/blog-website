@@ -165,47 +165,35 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
 
-  // Отримуємо токен
-  const adminData = JSON.parse(localStorage.getItem('adminData'));
-  const token = adminData?.token || localStorage.getItem('token');
-
-  const dataToSend = new FormData();
-  
-  // ВАЖЛИВО: Використовуємо старий slug (urlSlug), а не генеруємо новий!
+  // Видаляємо ручне отримання токена - він нам тут не потрібен, API все зробить сам!
   const finalSlug = urlSlug || formData.slug; 
 
   try {
+    const dataToSend = new FormData();
+    
     // Формуємо дані
     Object.keys(formData).forEach(key => {
+      // Важливо: переконайся, що formData не містить порожніх об'єктів, які не можна передати як рядок
       if (key === 'slug') dataToSend.append("slug", finalSlug);
       else dataToSend.append(key, formData[key] || "");
     });
 
-    const finalFaqs = faqs.filter(f => f.question?.trim());
-    dataToSend.append("faqs", JSON.stringify(finalFaqs));
+    dataToSend.append("faqs", JSON.stringify(faqs.filter(f => f.question?.trim())));
     
-    // Якщо додали нову картинку — додаємо її
     if (imageFile) {
       dataToSend.append("blog_image", imageFile);
     }
-
-  
-    // Використовуємо PUT та шлях з ID або SLUG
-    const response = await API.put(`/blogs/${finalSlug}`, dataToSend, {
-      headers: { 
-        Authorization: `Bearer ${token}`, 
-        "Content-Type": "multipart/form-data" 
-      }
-    });
+ 
+    // Використовуємо наш API без жодних додаткових параметрів headers
+    // Axios автоматично обробить FormData і додасть токен через інтерцептор
+    await API.put(`/blogs/${finalSlug}`, dataToSend);
 
     alert("Статтю успішно оновлено! 🎉");
-    
-    // ПЕРЕХІД В ДАШБОРД (перевір чи імпортований navigate)
     navigate("/admin/dashboard"); 
 
   } catch (err) {
     console.error("❌ Помилка при оновленні:", err.response?.data || err.message);
-    alert("Помилка при оновленні статті.");
+    alert(err.response?.data?.message || "Помилка при оновленні статті.");
   } finally {
     setLoading(false);
   }

@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-// 1. Імпортуємо наш налаштований API замість звичайного axios
 import API from "./api/blogApi.js"; 
 
 export const AuthContext = createContext();
