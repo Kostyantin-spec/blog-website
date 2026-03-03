@@ -1,25 +1,33 @@
 import axios from "axios";
 
+// 1. Створюємо екземпляр
 const API = axios.create({
   baseURL: "https://blog-backend-api-n5q7.onrender.com/api"
 });
 
-// Ця магія спрацьовує ПЕРЕД кожним запитом
+// 2. Додаємо інтерцептор для динамічного токена
 API.interceptors.request.use(
   (config) => {
-    // Ми беремо НАЙСВІЖІШИЙ токен прямо з пам'яті перед відправкою
     const adminData = localStorage.getItem("adminData");
     if (adminData) {
-      const { token } = JSON.parse(adminData);
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+      try {
+        const parsed = JSON.parse(adminData);
+        if (parsed && parsed.token) {
+          config.headers.Authorization = `Bearer ${parsed.token}`;
+        }
+      } catch (e) {
+        console.error("Token parse error", e);
       }
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
+// 3. ПОВЕРТАЄМО ЕКСПОРТИ, ЯКИХ НЕ ВИСТАЧАЛО (для BlogContext та інших)
+export const fetchBlogs = () => API.get("/blogs");
+export const fetchBlogBySlug = (slug) => API.get(`/blogs/${slug}`);
+export const createBlog = (data) => API.post("/blogs", data);
+
+// 4. Дефолтний експорт для Modal.jsx та AuthContext.jsx
 export default API;
