@@ -1,27 +1,12 @@
 import axios from "axios";
 
-// 1. Створюємо екземпляр
-const API = axios.create({
-  baseURL: "https://blog-backend-api-n5q7.onrender.com/api"
-});
+const API = axios.create({ baseURL: 'https://blog-backend-api-n5q7.onrender.com/api' });
 
-// 2. Додаємо інтерцептор для динамічного токена
+// Тільки один інтерцептор, ніяких маніпуляцій у компонентах
 API.interceptors.request.use((config) => {
-    // Спочатку пробуємо дістати з adminData, якщо не вийде — беремо "token"
-    const adminDataRaw = localStorage.getItem("adminData");
-    let token = localStorage.getItem("token");
-
-    if (adminDataRaw) {
-        try {
-            const adminData = JSON.parse(adminDataRaw);
-            token = adminData.token;
-        } catch (e) {
-            console.error("Помилка парсингу adminData");
-        }
-    }
-
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+    const adminData = JSON.parse(localStorage.getItem("adminData"));
+    if (adminData?.token) {
+        config.headers.Authorization = `Bearer ${adminData.token}`;
     }
     return config;
 });
