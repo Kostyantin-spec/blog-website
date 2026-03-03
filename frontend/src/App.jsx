@@ -78,8 +78,12 @@ const App = () => {
 
   
   if (loading) {
-    return null; 
-  }
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'sans-serif' }}>
+      <h1>Секунду, завантажуємо дані...</h1>
+    </div>
+  ); 
+}
 
   return (
     <HelmetProvider>
