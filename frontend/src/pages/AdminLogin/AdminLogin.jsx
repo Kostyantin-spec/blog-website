@@ -24,14 +24,16 @@ const AdminLogin = () => {
     });
 
     if (data.token) {
-      
-      login(data);
-
-      
-      localStorage.setItem("adminData", JSON.stringify(data));
+      // 1. Спочатку зберігаємо в локалсторедж
       localStorage.setItem("token", data.token);
+      localStorage.setItem("adminData", JSON.stringify(data));
 
-      window.location.replace("/admin/dashboard");
+      // 2. Оновлюємо контекст (це важливо!)
+      login(data); 
+
+      // 3. М'який перехід через React Router (БЕЗ ПЕРЕЗАВАНТАЖЕННЯ)
+      // Це прибере помилку 404 Not Found
+      navigate("/admin/dashboard");
     }
   } catch (error) {
     console.error("Помилка авторизації:", error);

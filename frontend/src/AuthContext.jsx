@@ -1,6 +1,6 @@
-
 import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
+// 1. Імпортуємо наш налаштований API замість звичайного axios
+import API from "./api/blogApi.js"; 
 
 export const AuthContext = createContext();
 
@@ -15,30 +15,31 @@ export const AuthProvider = ({ children }) => {
         try {
           const parsedAdmin = JSON.parse(savedAdmin);
           setAdmin(parsedAdmin);
-          axios.defaults.headers.common["Authorization"] = `Bearer ${parsedAdmin.token}`;
+          // 2. Налаштовуємо заголовок саме в нашому API
+          API.defaults.headers.common["Authorization"] = `Bearer ${parsedAdmin.token}`;
         } catch (error) {
           console.error("Помилка парсингу adminData:", error);
           localStorage.removeItem("adminData");
         }
       }
-      setLoading(false); // Тепер роути знатимуть, що перевірка завершена
+      setLoading(false);
     };
-
     checkAuth();
   }, []);
 
   const login = (data) => {
-  setAdmin(data);
-  localStorage.setItem("adminData", JSON.stringify(data));
-  // Важливо: встановлюємо заголовок ОДРАЗУ
-  axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
-};
+    setAdmin(data);
+    localStorage.setItem("adminData", JSON.stringify(data));
+    // 3. Оновлюємо заголовок в API одразу
+    API.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+  };
 
   const logout = () => {
     setAdmin(null);
     localStorage.removeItem("adminData");
-    delete axios.defaults.headers.common["Authorization"];
-    window.location.href = "/admin/login"; // Повне очищення при виході
+    localStorage.removeItem("token");
+    delete API.defaults.headers.common["Authorization"];
+    window.location.href = "/admin/login";
   };
 
   return (
