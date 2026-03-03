@@ -8,11 +8,15 @@ const ProtectedRoute = ({ children }) => {
 
   console.log("ProtectedRoute status:", { loading, adminExists: !!admin });
 
-  if (loading) return <div>Завантаження прав доступу...</div>;
+  if (loading) {
+    return <div>Завантаження прав доступу...</div>;
+  }
 
+  // Якщо завантаження пройшло, але адміна немає — викидаємо
   if (!admin) {
-    console.warn("🔒 Доступ заборонено. Редирект...");
-    return <Navigate to="/admin/login" state={{ from: location }} replace />;
+     // Щоб побачити, чи прийшов адмін, виведи в консоль
+     console.log("Адмін в контексті зараз:", admin);
+     return <Navigate to="/admin/login" replace />;
   }
 
   return children;
