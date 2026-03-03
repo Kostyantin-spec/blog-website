@@ -9,27 +9,32 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const initAuth = () => {
+      console.log("Checking storage for adminData...");
       const savedData = localStorage.getItem("adminData");
+      
       if (savedData) {
         try {
           const data = JSON.parse(savedData);
+          console.log("Admin found in storage:", data.admin?.name);
           setAdmin(data);
-          // Встановлюємо заголовок, якщо токен є
           if (data.token) {
             API.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
           }
         } catch (error) {
-          console.error("Помилка парсингу adminData:", error);
+          console.error("Error parsing adminData:", error);
+          localStorage.removeItem("adminData"); // Чистимо биті дані
         }
+      } else {
+        console.log("No adminData in storage.");
       }
-      // ЦЕЙ РЯДОК ОЖИВИТЬ САЙТ:
-      setLoading(false); 
+      setLoading(false); // Включаємо сайт
     };
 
     initAuth();
   }, []);
 
   const login = (data) => {
+    console.log("Login triggered with data:", data);
     setAdmin(data);
     localStorage.setItem("adminData", JSON.stringify(data));
     API.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
@@ -44,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ admin, login, logout, loading }}>
-      {!loading && children} 
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
