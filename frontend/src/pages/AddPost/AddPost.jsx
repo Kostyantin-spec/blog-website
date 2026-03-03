@@ -1,9 +1,8 @@
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-import Editor from 'react-simple-code-editor';
+// import Editor from 'react-simple-code-editor';
+import API from '../../api/blogApi';
 
 import "./AddPost.css";
 import CodeEditorInput from "../../Components/CodeEditor/CodeEditor";
@@ -15,23 +14,27 @@ import { TEAM_MEMBERS, blog_categories, blog_tags } from '../../data.jsx';
 
 
 
+// === ПЛАГІН ДЛЯ ЗАВАНТАЖЕННЯ КАРТИНОК В РЕДАКТОР ===
 function uploadAdapter(loader) {
     return {
         upload: () => {
             return loader.file.then(file => {
                 const body = new FormData();
-                // НАЗВА МАЄ ЗБІГАТИСЯ З ТИМ, ЩО В .single() НА БЕКЕНДІ
+                // Назва 'upload' має збігатися з multer на бекенді
                 body.append('upload', file); 
 
-                return fetch('http://localhost:5000/api/blogs/upload-image', {
-                    method: 'POST',
-                    body: body,
-                    // НЕ додавай Headers 'Content-Type', fetch зробить це сам для FormData
-                })
-                .then(res => res.json())
+                // Використовуємо наш централізований клієнт API
+                return API.post('/blogs/upload-image', body)
                 .then(res => {
-                    if (res.error) throw new Error(res.error);
-                    return { default: res.url }; // CKEditor адаптер чекає { default: "url" }
+                    // Axios повертає результат у полі .data
+                    if (res.data.error) throw new Error(res.data.error);
+                    
+                    // Повертаємо URL картинки для відображення в редакторі
+                    return { default: res.data.url }; 
+                })
+                .catch(err => {
+                    console.error("Помилка при завантаженні картинки в редактор:", err);
+                    throw err;
                 });
             });
         }
@@ -178,7 +181,7 @@ const handleSubmit = async (e) => {
     let globalSettings = {};
 
     try {
-      const settingsRes = await axios.get('http://localhost:5000/api/admin/settings', {
+      const settingsRes = await API.get('/admin/settings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       globalSettings = settingsRes.data;
@@ -200,8 +203,9 @@ const handleSubmit = async (e) => {
     if (imageFile) dataToSend.append("blog_image", imageFile);
 
     // Відправка на сервер
-    const response = await axios.post("http://localhost:5000/api/blogs", dataToSend, {
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
+    const response = await API.post("/blogs", dataToSend, {
+      // headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
+      headers: { "Content-Type": "multipart/form-data" }
     });
 
     alert("Стаття успішно створена! 🎉");
@@ -220,7 +224,9 @@ const handleSubmit = async (e) => {
           blog_image: response.data.blog?.blog_image || imageFile?.name || ""
         }, globalSettings);
 
-        await axios.post(webhookUrl, payload);
+        // await API.post(webhookUrl, payload);
+        // Бекенд сам візьме webhookUrl з бази даних
+        await API.post("/send-to-make", payload);
         console.log("🚀 Дані для соцмереж відправлено в Make");
       }
     } catch (automationErr) {

@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import CodeEditorInput from "../../Components/CodeEditor/CodeEditor"; 
 import MyEditor from "../../Components/Editor/MyEditor";
 import "./EditPost.css";
-//  import { createUnifiedPayload } from "../../../../backend/utils/createUnifiedPayload.js";
+import API from '../../api/blogApi';
+
  import {TEAM_MEMBERS, blog_categories, blog_tags } from '../../data.jsx';
 
 
@@ -16,16 +15,24 @@ function uploadAdapter(loader) {
         upload: () => loader.file.then(file => {
             const body = new FormData();
             body.append('upload', file); 
-            const token = localStorage.getItem("token") || localStorage.getItem("adminToken");
-            return fetch('http://localhost:5000/api/blogs/upload-image', {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}` },
-                body: body
+
+            // Використовуємо наш налаштований клієнт API
+            // Він уже знає адресу Render і сам додасть baseURL
+            return API.post('/blogs/upload-image', body, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             })
-            .then(res => res.json())
             .then(res => {
-                if (res.error) throw new Error(res.error);
-                return { default: res.url }; 
+                // В Axios дані лежать у res.data
+                if (res.data.error) throw new Error(res.data.error);
+                
+                // CKEditor очікує об'єкт { default: "url_картинки" }
+                return { default: res.data.url }; 
+            })
+            .catch(err => {
+                console.error("Помилка завантаження картинки:", err);
+                throw err;
             });
         })
     };
@@ -75,7 +82,7 @@ const EditPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/blogs/${urlSlug}`);
+        const response = await API.get(`/blogs/${urlSlug}`);
         const post = response.data;
 
         if (post.faqs && Array.isArray(post.faqs)) {
@@ -115,11 +122,6 @@ const EditPost = () => {
     };
     fetchPost();
   }, [urlSlug, navigate]);
-
-  // const handleAuthorChange = (e) => {
-  //   const member = TEAM_MEMBERS.find(m => m.name === e.target.value);
-  //   setFormData(prev => ({ ...prev, author_name: member.name, author_image: member.avatar }));
-  // };
 
   const handleAuthorChange = (e) => {
   const selectedName = e.target.value;
@@ -189,7 +191,7 @@ const handleSubmit = async (e) => {
 
   
     // Використовуємо PUT та шлях з ID або SLUG
-    const response = await axios.put(`http://localhost:5000/api/blogs/${finalSlug}`, dataToSend, {
+    const response = await API.put(`/blogs/${finalSlug}`, dataToSend, {
       headers: { 
         Authorization: `Bearer ${token}`, 
         "Content-Type": "multipart/form-data" 

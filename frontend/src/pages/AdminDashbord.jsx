@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa';
 import './AdminDashboard/AdminDashboard.css';
 import { createUnifiedPayload } from "../../../backend/utils/createUnifiedPayload.js";
+import API from '../api/blogApi.js';
 
 
 const AdminDashboard = () => {
@@ -20,7 +21,8 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/blogs");
+        // const { data } = await axios.get("http://localhost:5000/api/blogs");
+        const { data } = await API.get("/blogs");
         setBlogs(data);
       } catch (err) {
         console.error("Помилка отримання блогів", err);
@@ -49,10 +51,10 @@ const handleReshare = async ( blog) => {
     ));
 
     // Запит на сервер (база даних)
-    await axios.post(`http://localhost:5000/api/blogs/${blog.slug}/reshare`);
+    await API.post(`/blogs/${blog.slug}/reshare`);
 
     // Отримуємо налаштування
-    const settingsRes = await axios.get('http://localhost:5000/api/admin/settings');
+    const settingsRes = await API.get('/admin/settings');
     let { makeWebhookUrl, siteName, syncNewPosts } = settingsRes.data;
 
     // 🛡️ Захист №2: ЛІКУЄМО URL (якщо він склеївся)
@@ -84,7 +86,7 @@ if (syncNewPosts && makeWebhookUrl) {
   const handleDelete = async (slug) => {
     if (!window.confirm("Видалити статтю?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/blogs/${slug}`, {
+      await API.delete(`/blogs/${slug}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBlogs(prev => prev.filter(blog => blog.slug !== slug));

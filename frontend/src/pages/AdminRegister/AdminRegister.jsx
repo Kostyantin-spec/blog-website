@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API from '../../api/blogApi';
 import '../AdminLogin/AdminLogin.css';
 
 const AdminRegister = () => {
@@ -11,7 +11,7 @@ const AdminRegister = () => {
    const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const res = await axios.post("http://localhost:5000/api/admin/register", formData);
+    const res = await API.post("/admin/register", formData);
     
     if (res.status === 201 || res.status === 200) {
       alert("Адміна створено!"); 

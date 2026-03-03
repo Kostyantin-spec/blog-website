@@ -172,11 +172,12 @@
     left: -50%;
   }
 }
-@media (min-width: 1000px) and (max-width: 1399px) {
+@media (min-width: 1025px) and (max-width: 1399px) {
   .nav-item.dropdown .dropdown-menu {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(2, 1fr);
-    width: 550px;
+    width: 550px; */
+    display: none;
   }
 }
 

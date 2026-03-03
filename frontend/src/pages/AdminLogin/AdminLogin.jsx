@@ -1,9 +1,9 @@
 
-import React, { useState, useContext } from "react"; // 1. Додали useContext
-import axios from "axios";
+import React, { useState, useContext } from "react"; 
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthContext"; // 2. Імпортуй свій AuthContext
 import './AdminLogin.css';
+import API from '../../api/blogApi';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const AdminLogin = () => {
   setError("");
 
   try {
-    const { data } = await axios.post("http://localhost:5000/api/admin/login", {
+    const { data } = await API.post("/admin/login", {
       email,
       password,
     });

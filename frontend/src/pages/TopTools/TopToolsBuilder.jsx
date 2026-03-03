@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './TopTools.css';
 import FAQBuilders from '../../Components/FAQHosting/FAQBuilders';
 import { Helmet } from 'react-helmet-async';
-import axios from 'axios';
+import API from '../../api/blogApi';
 
 const allBuilders = [
   {
@@ -760,9 +760,7 @@ const TopToolsBuilders = () => {
     const payload = {
       name: "Користувач (Клік)", 
       email: "click-tracker@marketingkit.com", 
-      // Додаємо динамічну назву сторінки в текст для Telegram
       text: `Клік на: ${tool.title} (Сторінка: ${pageSource})`,
-      // Важливо: використовуємо "Gold Page Modal Open", щоб адмінка бачила ці дані
       source: "Gold Page Modal Open", 
       articleTitle: tool.title, 
       articleSlug: tool.slug || "top-tools",
@@ -772,7 +770,7 @@ const TopToolsBuilders = () => {
     };
 
     // 2. Відправляємо на твій бекенд, який пересилає дані в Make.com та зберігає в Leads
-    await axios.post('http://localhost:5000/api/send-to-make', payload);
+    await API.post('/send-to-make', payload);
     
     console.log(`✅ Клік на ${tool.title} зафіксовано`);
   } catch (error) {
@@ -844,7 +842,7 @@ const TopToolsBuilders = () => {
             <div key={b.id} className="table-row" style={{ animationDelay: `${(index + 1) * 0.05}s` }}>
               <div className="provider-info">
                 <div className="logo-bg">
-                  {/* <img src={b.logo} alt={b.name} className="provider-logo" /> */}
+                 
                   <img 
                       src={b.logo} 
                        alt={b.name} 

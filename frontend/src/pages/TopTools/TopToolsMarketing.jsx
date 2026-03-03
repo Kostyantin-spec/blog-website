@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import "./TopTools.css";
 import FAQMarketing from "../../Components/FAQHosting/FAQMarketing";
 import { Helmet } from 'react-helmet-async';
-
-import axios from "axios";
+import API from '../../api/blogApi';
 
 
 const allMarketingTools = [
@@ -638,17 +637,17 @@ const TopToolsMarketing = () => {
     const payload = {
       name: "Користувач (Клік)", 
       email: "click-tracker@marketingkit.com", 
-      text: `Клік на: ${tool.title} (Джерело: ${pageSource})`,
-      source: "Gold Page Modal Open", // Залишаємо цей source, щоб адмінка бачила дані
+      text: `Клік на: ${tool.title} (Сторінка: ${pageSource})`,
+      source: "Gold Page Modal Open", 
       articleTitle: tool.title, 
-      articleSlug: tool.slug || "tool-click",
+      articleSlug: tool.slug || "top-tools",
       actionType: "lead",
       site: "MARKETINGKIT",
       contact: "n/a"
     };
 
     // Відправка на твій бекенд
-    await axios.post('http://localhost:5000/api/send-to-make', payload);
+    await API.post('/send-to-make', payload);
     
     console.log(`✅ Аналітика: зафіксовано клік на ${tool.title}`);
   } catch (error) {

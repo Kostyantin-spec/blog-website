@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import API from '../../api/blogApi';
 import "./Contact.css";
 
 import { useNavigate } from "react-router-dom";
@@ -39,28 +40,28 @@ const handleSubmit = async (e) => {
   const payload = createUnifiedPayload("contact_form", blogData, { siteName: "marketingkit.com" });
 
   try {
-    const webhookUrl = localStorage.getItem("makeWebhookUrl") || "http://localhost:5000/api/send-to-make";
+  setLoading(true);
 
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+  // 1. Відправляємо дані на наш бекенд (Render)
+  // Бекенд сам знає актуальний URL Make.com із бази даних
+  const response = await API.post("/send-to-make", payload);
 
-    if (response.ok) {
-      setFormData({ name: "", email: "", message: "" });
-      setAgreed(false);
-      navigate("/thank-you"); 
-    } else {
-      setStatus("error");
-      console.error("Помилка при відправці в Make.com");
-    }
-  } catch (err) {
-    console.error("Contact error:", err);
+  // 2. Axios вважає успішним статус 2xx
+  if (response.status === 200 || response.status === 201) {
+    setFormData({ name: "", email: "", message: "" });
+    setAgreed(false);
+    navigate("/thank-you"); 
+  } else {
     setStatus("error");
-  } finally {
-    setLoading(false);
+    console.error("Помилка при відправці на сервер");
   }
+} catch (err) {
+  console.error("Contact error:", err);
+  setStatus("error");
+  alert("Виникла помилка при відправці. Спробуйте пізніше.");
+} finally {
+  setLoading(false);
+}
 };
 
   return (

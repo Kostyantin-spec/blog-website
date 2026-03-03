@@ -899,3 +899,59 @@
    padding-top: 80px;
    }
 }
+@media (max-width: 992px) {
+  .provider-features {
+    display: none; /* Ховаємо теги на середніх екранах, щоб не було каші */
+  }
+}
+
+@media (max-width: 600px) {
+  .table-row {
+    flex-direction: column; /* Перетворюємо рядок на вертикальну картку */
+    align-items: center;
+    text-align: center;
+    padding: 25px 15px;
+    gap: 15px;
+  }
+
+  .provider-info {
+    flex-direction: column;
+    min-width: auto;
+  }
+
+  .logo-bg {
+    width: 70px;
+    height: 70px;
+  }
+
+  .provider-price {
+    margin-right: 0;
+    margin-top: 5px;
+  }
+
+  .current-price {
+    font-size: 1.5rem;
+  }
+
+  .provider-action {
+    width: 100%; /* Кнопка на всю ширину мобілки */
+  }
+
+  .claim-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+  }
+  
+  .provider-features {
+    display: flex; /* Повертаємо теги на мобілку, але в центрі */
+    justify-content: center;
+    margin: 10px 0;
+  }
+}
+
+/* Анімація появи */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

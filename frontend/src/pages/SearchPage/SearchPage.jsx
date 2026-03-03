@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import axios from "axios";
+import API from '../../api/blogApi';
 import Skeleton from "../../Components/Skeleton/Skeleton"; 
 import "./SearchPage.css";
 
@@ -16,7 +16,7 @@ const SearchPage = () => {
       if (!query.trim()) return;
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:5000/api/blogs/search?q=${encodeURIComponent(query)}`);
+        const res = await API.get(`/blogs/search?q=${encodeURIComponent(query)}`);
         setResults(res.data);
       } catch (err) {
         console.error("Помилка пошуку", err);
@@ -32,7 +32,7 @@ const SearchPage = () => {
     <div className="archive-container">
 
             <Helmet>
-              <title>Пошук: {query} | MarketingKit</title>
+              <title>Пошук: {query} | MARKETINGKIT</title>
               <meta name="description" content={`Результати пошуку для запиту: ${query}`} />
               <meta name="robots" content="noindex, follow" /> 
             </Helmet>

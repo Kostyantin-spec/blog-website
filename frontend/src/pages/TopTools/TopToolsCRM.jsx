@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import FAQCRM from '../../Components/FAQHosting/FAQCRM';
 import './TopTools.css';
-import axios from 'axios';
+import API from '../../api/blogApi';
 
 
 const TopToolsCRM = () => {
@@ -394,9 +394,7 @@ const filteredTools = filter === 'all'
     const payload = {
       name: "Користувач (Клік)", 
       email: "click-tracker@marketingkit.com", 
-      
       text: `Клік на інструмент: ${tool.title} (Джерело: ${pageSource})`,
-      
       source: "Gold Page Modal Open", 
       articleTitle: tool.title, 
       articleSlug: tool.slug || "tool-click",
@@ -406,7 +404,7 @@ const filteredTools = filter === 'all'
     };
 
     
-    await axios.post('http://localhost:5000/api/send-to-make', payload);
+    await API.post('/send-to-make', payload);
     
     console.log(`📊 Трекінг: Клік на "${tool.title}" зафіксовано.`);
   } catch (error) {

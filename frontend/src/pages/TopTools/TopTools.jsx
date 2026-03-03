@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './TopTools.css';
 import { Helmet } from 'react-helmet-async';
-import axios from 'axios';
+import API from '../../api/blogApi';
 
 const PromoBanner = ({ count }) => (
   <div className="promo-info-banner">
@@ -121,7 +121,7 @@ const GoldPage = () => {
 
   try {
     
-    await axios.post('http://localhost:5000/api/send-to-make', {
+    await API.post('/send-to-make', {
       name: "Користувач (Клік)", 
       email: "click-tracker@marketingkit.com", 
       text: `Відкрито модалку для: ${tool.title}`,

@@ -15,9 +15,9 @@ import { FaRegCalendarAlt, FaRegClock, FaRegEye, FaRegHeart, FaHeart } from "rea
 import parse from 'html-react-parser';
 import '../../Components/Typography/Typography.css'
 import { FaHome } from 'react-icons/fa';
-import axios from "axios";
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import API from '../../api/blogApi';
 
 import SupportAndRating from "../../Components/SupportAndRating/SupportAndRating";
 import FAQ from "../../Components/FAQ/FAQ";
@@ -140,7 +140,7 @@ const scrollToTop = () => {
 useEffect(() => {
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/admin/comments/${slug}`);
+      const res = await API.get(`/admin/comments/${slug}`);
       setApprovedComments(res.data);
     } catch (err) {
       
@@ -159,7 +159,7 @@ useEffect(() => {
 
   // 1. Оновлюємо Title
   const prevTitle = document.title;
-  document.title = `${blog.title} | MarketingKit`;
+  document.title = `${blog.title} | MARKETINGKIT`;
 
   // 2. Функція для керування мета-тегами
   const updateMeta = (name, content, isProperty = false) => {
@@ -278,7 +278,7 @@ updateMeta("og:image", image, true);
   setCommentStatus("sending");
 
   try {
-    const response = await fetch("http://localhost:5000/api/send-to-make", {
+   const response = await API.post("/send-to-make", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -306,6 +306,7 @@ updateMeta("og:image", image, true);
 
 const handleCommunitySubmit = async (e) => {
   e.preventDefault();
+  
   if (!agreedCommunity) {
     alert("Потрібно погодитися з правилами.");
     return;
@@ -313,33 +314,31 @@ const handleCommunitySubmit = async (e) => {
 
   // 1. Формуємо blogData для уніфікатора
   const blogData = {
-    authorEmail: email, // Функція перетворить це на "email" для Mongoose
+    authorEmail: email, 
     title: document.title,
     description: `Підписка на ком'юніті зі статті: ${document.title}`,
     slug: window.location.pathname.split('/').pop()
   };
 
-  // 2. Використовуємо універсальний payload
-  const payload = createUnifiedPayload("community_subscription", blogData, { siteName: "marketingkit.com" });
+  
+  const payload = createUnifiedPayload("community_subscription", blogData, { 
+    siteName: "marketingkit.com" 
+  });
 
   try {
-    // 3. Беремо URL динамічно
-    const webhookUrl = localStorage.getItem("makeWebhookUrl") || "http://localhost:5000/api/send-to-make";
+    
+    const response = await API.post("/send-to-make", payload);
 
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (response.ok) {
+   
+    if (response.status === 200 || response.status === 201) {
       setIsSubscribed(true);
       navigate("/thank-you");
     } else {
       alert("Помилка при відправці.");
     }
   } catch (err) {
-    console.error("Помилка мережі:", err);
+    console.error("Помилка мережі або сервера:", err);
+    alert("Виникла помилка під час підписки. Спробуйте пізніше.");
   }
 };
 
@@ -352,7 +351,7 @@ const handleLike = async () => {
   }
 
   try {
-    const { data } = await axios.post(`http://localhost:5000/api/blogs/${blog._id}/like`, {
+    const { data } = await API.post(`/blogs/${blog._id}/like`, {
       userId: deviceId // Передаємо цей ID
     });
 
@@ -658,11 +657,7 @@ const authorData = TEAM_MEMBERS.find(member => member.name === blog.author_name)
 
           <section className="author-bio-card">
   <div className="author-card-main">
-    {/* <img 
-      src={blog.author_image || `https://ui-avatars.com/api/?name=${blog.author_name}`} 
-      alt={blog.author_name} 
-      className="author-main-avatar" 
-    /> */}
+   
 
      <img 
       src={authorData.avatar || `https://ui-avatars.com/api/?name=${authorData.name}`} 
@@ -671,11 +666,7 @@ const authorData = TEAM_MEMBERS.find(member => member.name === blog.author_name)
     />
 
     <div className="author-bio-text">
-      {/* <span className="author-label">Автор статті</span>
-      <h4>{blog.author_name || "Костянтин"}</h4>
-      <p className="author-description">
-         {blog.author_bio || "Експерт з автоматизації та бізнес-стратегій."}
-      </p> */}
+     
 
       <span className="author-label">{authorData.role || "Автор статті"}</span>
       <h4>{authorData.name}</h4>
@@ -686,9 +677,7 @@ const authorData = TEAM_MEMBERS.find(member => member.name === blog.author_name)
       </p>
       
       
-      {/* <div className="skills-tags">
-             {authorData.skills.map(s => <span className="skill-tag">{s}</span>)}
-       </div> */}
+     
            <div className="skills-container">
        <div className="skills-tags">
         {authorData.skills?.map((skill, index) => (
@@ -856,10 +845,7 @@ const authorData = TEAM_MEMBERS.find(member => member.name === blog.author_name)
             <div className="modal-inner-community">
               <div className="community-icon">
                 <div className="community-icon">
-                   {/* <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                   <polyline points="22,6 12,13 2,6"></polyline>
-                   </svg> */}
+                  
 
                    <div className="community-icon">
   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

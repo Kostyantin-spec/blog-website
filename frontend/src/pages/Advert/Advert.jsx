@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Advert.css";
 import { useNavigate } from "react-router-dom";
 import createUnifiedPayload from '../../../../backend/utils/createUnifiedPayload';
+import API from '../../api/blogApi';
+
 
 const Advert = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,27 +42,32 @@ const Advert = () => {
   const payload = createUnifiedPayload("ads_request", blogData, { siteName: "marketingkit.com" });
 
   try {
-    const webhookUrl = localStorage.getItem("makeWebhookUrl") || "http://localhost:5000/api/blogs/send-to-make";
+  setLoading(true);
 
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+  // 1. Відправляємо дані на наш бекенд (Render)
+  // Бекенд сам знає актуальний URL Make.com із бази даних
+  const response = await API.post("/send-to-make", payload);
 
-    if (response.ok) {
-      setFormData({ name: "", contact: "", message: "" });
-      setIsModalOpen(false);
-      navigate("/thank-you");
-    } else {
-      alert("Помилка при відправці.");
-    }
-  } catch (err) {
-    console.error("Помилка:", err);
-    alert("Сервер недоступний. Напишіть нам у Telegram.");
-  } finally {
-    setLoading(false);
+  // 2. Axios вважає успішним статус 2xx
+  if (response.status === 200 || response.status === 201) {
+    setFormData({ name: "", contact: "", message: "" });
+    setIsModalOpen(false);
+    navigate("/thank-you");
+  } else {
+    alert("Помилка при відправці.");
   }
+} catch (err) {
+  console.error("Помилка відправки форми:", err);
+  
+  // Якщо помилка мережі або сервера
+  if (err.response?.status === 404) {
+    alert("Маршрут не знайдено. Перевірте налаштування бекенду.");
+  } else {
+    alert("Сервер тимчасово недоступний. Будь ласка, напишіть нам у Telegram.");
+  }
+} finally {
+  setLoading(false);
+}
 };
 
   const adPackages = [

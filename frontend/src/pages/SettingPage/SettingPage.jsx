@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../AuthContext';
-import axios from 'axios';
+import API from '../../api/blogApi';
 import { FaSave, FaLink, FaInfoCircle, FaVial, FaCheckCircle, FaExclamationTriangle, FaBullhorn, FaComments, FaEnvelope } from 'react-icons/fa';
 import './SettingPage.css';
 
@@ -29,7 +28,7 @@ const SettingsPage = () => {
     
     const fetchSettings = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/admin/settings', {
+        const res = await API.get('/admin/settings', {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.data) setSettings(res.data);
@@ -53,7 +52,7 @@ const SettingsPage = () => {
     setLoading(true);
     setTestStatus({ type: '', message: '' });
     try {
-      await axios.post('http://localhost:5000/api/admin/settings/test-webhook', 
+      await API.post('/admin/settings/test-webhook', 
         { url: settings.makeWebhookUrl,
           data: { email_address: "test-user@example.com" }
          },
@@ -72,7 +71,7 @@ const SettingsPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/admin/settings', settings, {
+      await API.post('/admin/settings', settings, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert("✅ Налаштування оновлено!");

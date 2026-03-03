@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import './TopTools.css';
 import FAQHosting from '../../Components/FAQHosting/FAQHosting';
 import { Helmet } from 'react-helmet-async';
-import axios from "axios";
+import API from '../../api/blogApi';
 
 const allHostings = [{
     id: 1,
@@ -1615,9 +1615,7 @@ useEffect(() => {
     const payload = {
       name: "Користувач (Клік)", 
       email: "click-tracker@marketingkit.com", 
-      // Текст для твоєї пошти та Telegram
       text: `Клік на: ${item.name} (Сторінка: ${pageSource})`,
-      // Джерело залишаємо таким же, щоб адмінка бачила статистику
       source: "Gold Page Modal Open", 
       articleTitle: item.name, 
       articleSlug: item.id || "tool-click",
@@ -1627,7 +1625,7 @@ useEffect(() => {
     };
 
     // Відправка на твій бекенд (який потім шле в Make.com)
-    await axios.post('http://localhost:5000/api/send-to-make', payload);
+    await API.post('/send-to-make', payload);
     
     console.log(`📊 Статистика оновлена: ${item.name}`);
   } catch (error) {

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../api/blogApi';
 import './CommentsModeration.css';
 
 const CommentsModeration = () => {
@@ -19,7 +19,7 @@ const token = localStorage.getItem('token') || localStorage.getItem('adminToken'
 
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/admin/comments/pending', {
+      const res = await API.get('/admin/comments/pending', {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -45,7 +45,7 @@ const token = localStorage.getItem('token') || localStorage.getItem('adminToken'
 
   const handleApprove = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/admin/comments/approve/${id}`, {}, {
+      await API.patch(`/admin/comments/approve/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setComments(prev => prev.filter(c => c._id !== id));
@@ -58,7 +58,7 @@ const token = localStorage.getItem('token') || localStorage.getItem('adminToken'
     if (!window.confirm("Видалити цей коментар остаточно?")) return;
     
     try {
-      await axios.delete(`http://localhost:5000/api/admin/comments/${id}`, {
+      await API.delete(`/admin/comments/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setComments(prev => prev.filter(c => c._id !== id));

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API from '../../api/blogApi';
 import { FaArrowLeft, FaChartLine, FaTrophy, FaMousePointer, FaClock } from "react-icons/fa";
 import "./GoldAnalitics.css"; 
 
@@ -24,11 +25,11 @@ const GoldAnalytics = () => {
       };
 
       
-      const { data } = await axios.get("http://localhost:5000/api/blogs/gold-stats", config);
+      const { data } = await API.get("/blogs/gold-stats", config);
       setStats(data);
 
       
-      const settingsRes = await axios.get('http://localhost:5000/api/admin/settings', config);
+      const settingsRes = await API.get('/admin/settings', config);
       let { makeWebhookUrl, syncNewPosts } = settingsRes.data;
 
       if (makeWebhookUrl && makeWebhookUrl.includes('https://hook')) {
