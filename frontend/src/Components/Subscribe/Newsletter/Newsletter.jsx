@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BsSend, BsCheckCircle } from "react-icons/bs";
 import createUnifiedPayload from '../../../../../backend/utils/createUnifiedPayload'
 import './Newsletter.css';
-import API from '../../api/blogApi';
+import API from '../../../api/blogApi';
 
 const socialAvatars = [
   "https://i.pravatar.cc/150?img=47",
