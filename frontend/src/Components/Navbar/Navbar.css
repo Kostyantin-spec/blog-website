@@ -7,7 +7,7 @@
   left: 0;
   width: 100%;
   height: 80px;
-  background: rgba(	8, 31, 93, 0.8);
+  background: rgba(	15, 23, 42, 0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
@@ -312,10 +312,13 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    visibility: hidden; 
+    transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
   }
 
   .nav_menu.open {
     right: 0;
+    visibility: visible;
   }
 
   .nav_menu ul {

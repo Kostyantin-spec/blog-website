@@ -21,7 +21,7 @@ function uploadAdapter(loader) {
             return loader.file.then(file => {
                 const body = new FormData();
                 // Назва 'upload' має збігатися з multer на бекенді
-                body.append('upload', file); 
+               body.append('image', file); 
 
                 // Використовуємо наш централізований клієнт API
                 return API.post('/blogs/upload-image', body)

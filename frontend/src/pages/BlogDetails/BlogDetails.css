@@ -2223,3 +2223,19 @@
   flex-shrink: 0; 
   margin-top: 3px;
 }
+
+/* =================== стилі для посилань ========== */
+/* Стиль для всіх посилань всередині тексту статті */
+.blog-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(0, 123, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.blog-content a:hover {
+    color: #0056b3;
+    border-bottom: 2px solid #0056b3;
+    background-color: rgba(0, 123, 255, 0.05); 
+}

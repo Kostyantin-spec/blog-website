@@ -47,8 +47,8 @@ const CommentsModeration = () => {
   };
 
   useEffect(() => {
-    fetchComments();
-  }, [token]);
+  fetchComments();
+}, []);
 
   const handleApprove = async (id) => {
     const token = getAuthHeader();

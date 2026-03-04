@@ -14,7 +14,7 @@ function uploadAdapter(loader) {
     return {
         upload: () => loader.file.then(file => {
             const body = new FormData();
-            body.append('upload', file); 
+            body.append('image', file); 
 
             // Використовуємо наш налаштований клієнт API
             // Він уже знає адресу Render і сам додасть baseURL
