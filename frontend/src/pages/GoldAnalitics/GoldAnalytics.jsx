@@ -11,40 +11,45 @@ const GoldAnalytics = () => {
 
  const fetchStats = async () => {
   try {
-    // 1. Беремо актуальні дані з localStorage
+    setLoading(true);
     const savedData = localStorage.getItem("adminData");
+    
     if (!savedData) {
-      console.error("❌ Токен не знайдено. Перелогіньтесь.");
-      setLoading(false);
+      console.error("❌ Дані adminData відсутні в localStorage");
       return;
     }
 
-    const { token } = JSON.parse(savedData);
-    
-    // 2. Виконуємо запити БЕЗ ручних config, 
-    // бо API інтерцептор автоматично додасть заголовок Authorization
-    // Але якщо хочеш бути на 100% впевненою — залишаємо заголовок явним (як нижче):
+    const parsedData = JSON.parse(savedData);
+    // Пробуємо дістати токен з різних можливих місць (parsedData.token або parsedData.admin.token)
+    const token = parsedData.token || (parsedData.admin && parsedData.admin.token);
 
-    const { data: statsData } = await API.get("/blogs/gold-stats", {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    setStats(statsData);
+    if (!token) {
+      console.error("❌ Токен не знайдено всередині adminData. Перевірте структуру:", parsedData);
+      return;
+    }
 
-    const settingsRes = await API.get('/admin/settings', {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    
-    let { makeWebhookUrl, syncNewPosts } = settingsRes.data;
+    console.log("✅ Токен знайдено, відправляю запити...");
 
-    if (makeWebhookUrl && makeWebhookUrl.includes('https://hook')) {
-        // Тут ми залишили твою логіку очищення URL
-        const cleanUrl = makeWebhookUrl.split('https').filter(Boolean)[0];
-        const finalUrl = 'https' + cleanUrl;
-        console.log("🔗 Webhook статус:", syncNewPosts ? "Активний" : "Вимкнений", "URL:", finalUrl);
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+
+    // Виконуємо запити паралельно для швидкості
+    const [statsRes, settingsRes] = await Promise.all([
+      API.get("/blogs/gold-stats", config),
+      API.get("/admin/settings", config)
+    ]);
+
+    setStats(statsRes.data);
+
+    const { makeWebhookUrl, syncNewPosts } = settingsRes.data;
+    if (makeWebhookUrl) {
+      console.log("🔗 Webhook URL:", makeWebhookUrl);
+      // Твоя логіка очищення URL, якщо потрібно
     }
 
   } catch (error) {
-    console.error("❌ Помилка завантаження статистики:", error.response?.data?.message || error.message);
+    console.error("❌ Помилка завантаження:", error.response?.status === 401 ? "Сесія завершена (401)" : error.message);
   } finally {
     setLoading(false);
   }

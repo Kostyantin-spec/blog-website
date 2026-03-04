@@ -2025,6 +2025,11 @@
 }
 
 /* ==================================== */
+@media (max-width: 1399px) {
+  .blog_details_container {
+    padding-top: 100px;
+  }
+}
 @media (max-width: 1024px) {
   .blog_details_main {
     grid-template-columns: 1fr !important;

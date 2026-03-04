@@ -80,11 +80,13 @@
   transition: text-shadow 0.3s ease;
 }
 
-/* АДАПТИВНІСТЬ */
-@media (max-width: 998px) {
+@media (max-width: 1399px) {
   .about-hero {
     padding: 100px 20px 60px;
-  }
+  }}
+
+/* АДАПТИВНІСТЬ */
+@media (max-width: 998px) {
   .about-mission {
     margin: 40px 20px;
     padding: 40px 25px;

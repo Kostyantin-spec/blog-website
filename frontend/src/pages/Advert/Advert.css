@@ -637,6 +637,12 @@
   }
 }
 
+@media (max-width: 1399px) {
+    .advert-page {
+ padding-top: 80px;
+}
+}
+
 @media (max-width: 1200px) {
   .container {
     max-width: 960px;
@@ -648,9 +654,7 @@
 
 /* Планшети (998px) */
 @media (max-width: 998px) {
-   .advert-page {
- padding-top: 80px;
-}
+ 
   .stats-grid, .packages-container {
     grid-template-columns: 1fr; 
   }

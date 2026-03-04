@@ -229,9 +229,9 @@
   }
 }
 
-@media (max-width: 989px) {
- .archive-header {
-  padding-top: 80px;
- }
 
+@media (max-width: 1399px) {
+  .archive-container {
+    padding-top: 80px;
+  }
 }
