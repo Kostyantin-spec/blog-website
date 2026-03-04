@@ -9,7 +9,7 @@ import CodeEditorInput from "../../Components/CodeEditor/CodeEditor";
 import MyEditor from "../../Components/Editor/MyEditor";
 import '../../Components/Typography/Typography.css'
 import FAQ from "../../Components/FAQ/FAQ";
-import { createUnifiedPayload } from "../../../../backend/utils/createUnifiedPayload.js";
+import { createUnifiedPayload } from "../../../../backend/src/utils/createUnifiedPayload.js";
 import { TEAM_MEMBERS, blog_categories, blog_tags } from '../../data.jsx';
 
 
@@ -193,14 +193,13 @@ const handleSubmit = async (e) => {
     });
 
     dataToSend.append("faqs", JSON.stringify(faqs.filter(f => f.question?.trim())));
-    if (imageFile) dataToSend.append("blog_image", imageFile);
+    if (imageFile) dataToSend.append("image", imageFile);
 
     // 4. Відправка статті на сервер (ЯВНО передаємо токен)
     // Content-Type для FormData axios/браузер додадуть самі
     const response = await API.post("/blogs", dataToSend, config);
 
-    alert("Стаття успішно створена! 🎉");
-    localStorage.removeItem('draft_post');
+    
 
     // 5. Синхронізація з Make.com (через твій бекенд)
     if (globalSettings?.syncNewPosts) {
@@ -210,6 +209,9 @@ const handleSubmit = async (e) => {
         blog_image: response.data.blog?.blog_image || imageFile?.name || ""
       }, globalSettings);
 
+      alert("Стаття успішно створена! 🎉");
+    localStorage.removeItem('draft_post');
+
       // Використовуємо наш бекенд як проксі до Make.com
       await API.post("/send-to-make", payload, config);
       console.log("🚀 Дані для соцмереж відправлено через бекенд");
@@ -217,15 +219,14 @@ const handleSubmit = async (e) => {
 
   } catch (error) {
     console.error("Помилка створення статті:", error);
-    if (error.response?.status === 401) {
-      alert("Сесія завершена. Будь ласка, увійдіть знову.");
-      window.location.href = "/admin/login";
-    } else {
-      alert(error.response?.data?.message || "Сталася помилка при збереженні");
-    }
-  } finally {
-    setLoading(false);
-  }
+    
+    // НЕ видаляй чернетку тут! 
+    // Виведи помилку, щоб знати, що саме не так:
+    const errorMsg = error.response?.data?.message || error.message;
+    alert(`Помилка: ${errorMsg}. Текст збережено, спробуй натиснути кнопку ще раз.`);
+    
+    setLoading(false); // Зупиняємо анімацію завантаження
+}
 };
 
     return (

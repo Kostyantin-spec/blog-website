@@ -193,7 +193,7 @@ const handleSubmit = async (e) => {
     dataToSend.append("faqs", JSON.stringify(faqs.filter(f => f.question?.trim())));
     
     if (imageFile) {
-      dataToSend.append("blog_image", imageFile);
+      dataToSend.append("image", imageFile);
     }
 
     // 3. Використовуємо API.put з ЯВНИМ конфігом (токеном)

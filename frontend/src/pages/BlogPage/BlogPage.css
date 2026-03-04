@@ -234,4 +234,6 @@
   .archive-container {
     padding-top: 80px;
   }
+  .archive-header {            
+  padding-top: 40px;  }
 }

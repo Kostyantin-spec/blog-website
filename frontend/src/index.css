@@ -49,7 +49,7 @@
   --card-bg: #1e293b;
   --sidebar-bg: #1e1e1e;
   --text-main:#cccccc !important;
-  --text-muted: #a0aec0;
+  /* --text-muted: #a0aec0; */
   --text-muted: #cccccc;
   --text-glow: 0 0 10px rgba(56, 189, 248, 0.3);
   --link-color: #88ccff;

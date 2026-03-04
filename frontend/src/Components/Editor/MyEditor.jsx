@@ -11,7 +11,15 @@ const MyEditor = ({ value, onChange, uploadPlugin }) => {
       window.CKEDITOR.ClassicEditor.create(editorRef.current, {
         licenseKey: 'GPL',
         extraPlugins: [uploadPlugin],
-        image: {
+       image: {
+        toolbar: [
+            'imageStyle:inline',
+            'imageStyle:block',
+            'imageStyle:side',
+            '|',
+            'toggleImageCaption',
+            'imageTextAlternative'
+        ],
         upload: {
             types: ['png', 'jpeg', 'jpg', 'gif', 'webp']
         }
