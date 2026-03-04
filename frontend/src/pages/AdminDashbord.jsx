@@ -41,31 +41,52 @@ const handleReshare = async (blog) => {
   
   setIsProcessing(true);
   try {
-    // 1. Оновлення бази (через наш розумний API)
-    await API.post(`/blogs/${blog.slug}/reshare`);
+    // 1. Отримуємо токен з нашого об'єкта adminData
+    const savedData = localStorage.getItem("adminData");
+    const token = savedData ? JSON.parse(savedData).token : null;
 
-    // 2. Отримання налаштувань
-    const settingsRes = await API.get('/admin/settings');
+    if (!token) {
+      alert("⚠️ Помилка авторизації. Будь ласка, перелогіньтесь.");
+      window.location.href = "/admin/login";
+      return;
+    }
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+
+    // 2. Оновлення бази (через наш API з явним токеном)
+    await API.post(`/blogs/${blog.slug}/reshare`, {}, config);
+
+    // 3. Отримання налаштувань (щоб взяти актуальний makeWebhookUrl)
+    const settingsRes = await API.get('/admin/settings', config);
     let { makeWebhookUrl, siteName, syncNewPosts } = settingsRes.data;
 
+    // 4. Відправка на Make.com
     if (syncNewPosts && makeWebhookUrl) {
       const payload = createUnifiedPayload("reshare", blog, { siteName });
       
-      // ЯКЩО makeWebhookUrl це твій бекенд — використовуй API.post
-      // ЯКЩО це зовнішній лінк Make.com — axios.post працює, але БЕЗ заголовків
+      // Для зовнішнього Make.com використовуємо звичайний axios
+      // ВАЖЛИВО: сюди токен НЕ передаємо, бо Make.com його не чекає
       await axios.post(makeWebhookUrl.trim(), payload); 
       
       setBlogs(prev => prev.map(b => 
         b.slug === blog.slug ? { ...b, reshareCount: (b.reshareCount || 0) + 1 } : b
       ));
-      alert(`✅ Готово!`);
+      
+      alert(`✅ Статтю успішно поширено через Make.com!`);
+    } else {
+      alert("ℹ️ Репост у базу записано, але синхронізація Make.com вимкнена.");
     }
+
   } catch (error) {
-    console.error("Помилка:", error);
-    // Якщо 401 — пропонуємо перелогін
+    console.error("❌ Помилка решейру:", error);
+    
     if (error.response?.status === 401) {
-       alert("Потрібно увійти знову.");
+       alert("Сесія закінчилася. Потрібно увійти знову.");
        window.location.href = "/admin/login";
+    } else {
+       alert("Помилка: " + (error.response?.data?.message || error.message));
     }
   } finally {
     setIsProcessing(false);
@@ -73,33 +94,55 @@ const handleReshare = async (blog) => {
 };
 
 
-  const handleDelete = async (slug) => {
+const handleDelete = async (slug) => {
   if (!window.confirm("Видалити статтю?")) return;
   
   try {
-    // ВАЖЛИВО: ми прибрали { headers: ... }, бо API сам додасть токен
-    await API.delete(`/blogs/${slug}`); 
+    // 1. Отримуємо свіжий токен з нашого об'єкта adminData
+    const savedData = localStorage.getItem("adminData");
+    const token = savedData ? JSON.parse(savedData).token : null;
+
+    if (!token) {
+      alert("Помилка авторизації. Перелогіньтесь.");
+      return;
+    }
+
+    // 2. Передаємо токен ЯВНО в заголовках (це наш захист від 401)
+    await API.delete(`/blogs/${slug}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }); 
     
+    // 3. Оновлюємо список статей в інтерфейсі
     setBlogs(prev => prev.filter(blog => blog.slug !== slug));
+    alert("🗑️ Статтю успішно видалено!");
+
   } catch (error) {
     console.error("Помилка видалення:", error);
-    // Показуємо реальну причину помилки від сервера, а не просто "Помилка"
-    alert(error.response?.data?.message || "Помилка видалення");
+    // Якщо сервер повернув 401 — це значить токен "прокис"
+    if (error.response?.status === 401) {
+      alert("Ваша сесія завершилася. Будь ласка, залогіньтесь знову.");
+    } else {
+      alert(error.response?.data?.message || "Помилка видалення");
+    }
   }
 };
 
-  const handleLogout = () => {
-  // 1. Видаляємо всі ключі, що стосуються адмінки
-  localStorage.removeItem("token");
+ const handleLogout = () => {
+  // 1. Очищаємо абсолютно все, що могло залишитися
   localStorage.removeItem("adminData");
+  localStorage.removeItem("token"); // на всякий випадок, якщо десь завалявся старий ключ
+  localStorage.removeItem("adminToken");
 
-  // 2. Видаляємо заголовок з нашого API (це вкрай важливо!)
-  delete API.defaults.headers.common["Authorization"];
+  // 2. Скидаємо заголовки API
+  if (API.defaults.headers.common["Authorization"]) {
+    delete API.defaults.headers.common["Authorization"];
+  }
 
-  // 3. Перенаправляємо на логін
-  navigate("/admin/login");
+  // 3. Перенаправляємо (використовуємо replace, щоб не можна було повернутися кнопкою "Назад")
+  navigate("/admin/login", { replace: true });
   
-  // 4. (Опціонально) Перезавантажуємо сторінку, щоб повністю скинути стан React
+  // 4. ПЕРЕЗАВАНТАЖЕННЯ — це супер-ідея! 
+  // Це повністю очистить пам'ять React від залишків статистики чи коментарів
   window.location.reload(); 
 };
 

@@ -165,15 +165,27 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
 
-  // Видаляємо ручне отримання токена - він нам тут не потрібен, API все зробить сам!
   const finalSlug = urlSlug || formData.slug; 
 
   try {
+    // 1. Отримуємо токен вручну з нашого надійного adminData
+    const savedData = localStorage.getItem("adminData");
+    const token = savedData ? JSON.parse(savedData).token : null;
+
+    if (!token) {
+      alert("⚠️ Помилка авторизації. Будь ласка, перелогіньтесь.");
+      setLoading(false);
+      return;
+    }
+
+    // Створюємо конфіг з токеном
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+
+    // 2. Формуємо дані FormData
     const dataToSend = new FormData();
-    
-    // Формуємо дані
     Object.keys(formData).forEach(key => {
-      // Важливо: переконайся, що formData не містить порожніх об'єктів, які не можна передати як рядок
       if (key === 'slug') dataToSend.append("slug", finalSlug);
       else dataToSend.append(key, formData[key] || "");
     });
@@ -183,17 +195,23 @@ const handleSubmit = async (e) => {
     if (imageFile) {
       dataToSend.append("blog_image", imageFile);
     }
- 
-    // Використовуємо наш API без жодних додаткових параметрів headers
-    // Axios автоматично обробить FormData і додасть токен через інтерцептор
-    await API.put(`/blogs/${finalSlug}`, dataToSend);
+
+    // 3. Використовуємо API.put з ЯВНИМ конфігом (токеном)
+    // Це наш залізобетонний захист від 401 Unauthorized
+    await API.put(`/blogs/${finalSlug}`, dataToSend, config);
 
     alert("Статтю успішно оновлено! 🎉");
     navigate("/admin/dashboard"); 
 
   } catch (err) {
     console.error("❌ Помилка при оновленні:", err.response?.data || err.message);
-    alert(err.response?.data?.message || "Помилка при оновленні статті.");
+    
+    if (err.response?.status === 401) {
+      alert("Сесія завершена. Будь ласка, залогіньтесь знову.");
+      window.location.href = "/admin/login";
+    } else {
+      alert(err.response?.data?.message || "Помилка при оновленні статті.");
+    }
   } finally {
     setLoading(false);
   }

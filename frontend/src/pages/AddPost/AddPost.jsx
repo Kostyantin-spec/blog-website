@@ -153,12 +153,27 @@ const handleSubmit = async (e) => {
   setLoading(true);
 
   try {
-    // 1. Отримуємо налаштування (БЕЗ ручних заголовків!)
+    // 1. Отримуємо токен з нашого об'єкта adminData
+    const savedData = localStorage.getItem("adminData");
+    const token = savedData ? JSON.parse(savedData).token : null;
+
+    if (!token) {
+      alert("⚠️ Помилка авторизації. Будь ласка, перелогіньтесь.");
+      setLoading(false);
+      return;
+    }
+
+    // Створюємо конфіг з токеном для всіх запитів до нашого бекенду
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+
+    // 2. Отримуємо налаштування (ЯВНО передаємо токен)
     let utmSource = 'admin_panel';
     let globalSettings = {};
 
     try {
-      const settingsRes = await API.get('/admin/settings'); // API сам підставить токен
+      const settingsRes = await API.get('/admin/settings', config); 
       globalSettings = settingsRes.data;
       if (globalSettings.siteName) {
         utmSource = globalSettings.siteName.replace(/\s+/g, '_').toLowerCase();
@@ -167,7 +182,7 @@ const handleSubmit = async (e) => {
       console.warn("Не вдалося отримати налаштування, використовуємо стандартні");
     }
 
-    // 2. Формуємо дані
+    // 3. Формуємо дані (FormData для картинки)
     const dataToSend = new FormData();
     const baseSlug = formData.slug?.trim() || generateSlug(formData.title);
     const uniqueSlug = `${baseSlug}-${Math.floor(Math.random() * 1000)}`;
@@ -180,14 +195,14 @@ const handleSubmit = async (e) => {
     dataToSend.append("faqs", JSON.stringify(faqs.filter(f => f.question?.trim())));
     if (imageFile) dataToSend.append("blog_image", imageFile);
 
-    // 3. Відправка на сервер (API автоматично додасть заголовки)
-    // Важливо: Content-Type для FormData браузер додасть САМ, не треба його вказувати вручну
-    const response = await API.post("/blogs", dataToSend);
+    // 4. Відправка статті на сервер (ЯВНО передаємо токен)
+    // Content-Type для FormData axios/браузер додадуть самі
+    const response = await API.post("/blogs", dataToSend, config);
 
     alert("Стаття успішно створена! 🎉");
     localStorage.removeItem('draft_post');
 
-    // 4. Синхронізація з Make.com (через твій бекенд)
+    // 5. Синхронізація з Make.com (через твій бекенд)
     if (globalSettings?.syncNewPosts) {
       const payload = createUnifiedPayload("add_post", {
         ...formData,
@@ -195,13 +210,19 @@ const handleSubmit = async (e) => {
         blog_image: response.data.blog?.blog_image || imageFile?.name || ""
       }, globalSettings);
 
-      await API.post("/send-to-make", payload);
-      console.log("🚀 Дані для соцмереж відправлено");
+      // Використовуємо наш бекенд як проксі до Make.com
+      await API.post("/send-to-make", payload, config);
+      console.log("🚀 Дані для соцмереж відправлено через бекенд");
     }
 
   } catch (error) {
-    console.error("Помилка:", error);
-    alert(error.response?.data?.message || "Сталася помилка при збереженні");
+    console.error("Помилка створення статті:", error);
+    if (error.response?.status === 401) {
+      alert("Сесія завершена. Будь ласка, увійдіть знову.");
+      window.location.href = "/admin/login";
+    } else {
+      alert(error.response?.data?.message || "Сталася помилка при збереженні");
+    }
   } finally {
     setLoading(false);
   }

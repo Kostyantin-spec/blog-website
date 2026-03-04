@@ -7,18 +7,27 @@ const CommentsModeration = () => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-const token = localStorage.getItem('token') || localStorage.getItem('adminToken');
+
+  // Функція для отримання актуального токена
+  const getAuthHeader = () => {
+    const savedData = localStorage.getItem("adminData");
+    if (!savedData) return null;
+    const parsedData = JSON.parse(savedData);
+    return parsedData.token || (parsedData.admin && parsedData.admin.token);
+  };
 
   const fetchComments = async () => {
+    const token = getAuthHeader();
+    
     if (!token) {
-      setError("Ви не авторизовані. Будь ласка, увійдіть в адмін-панель.");
+      setError("Ви не авторизовані. Будь ласка, увійдіть знову.");
       setLoading(false);
       return;
     }
 
     try {
       setLoading(true);
+      // Використовуємо наш надійний метод з явним заголовком
       const res = await API.get('/admin/comments/pending', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -26,11 +35,9 @@ const token = localStorage.getItem('token') || localStorage.getItem('adminToken'
       setComments(res.data);
       setError(null);
     } catch (err) {
-      console.error("Помилка завантаження:", err.response?.data || err.message);
-      
+      console.error("Помилка завантаження коментарів:", err);
       if (err.response?.status === 401) {
-        setError("Сесія закінчилася. Будь ласка, перелогіньтеся.");
-        // Можна додати localStorage.removeItem('adminToken') тут
+        setError("Сесія закінчилася. Перелогіньтеся.");
       } else {
         setError("Не вдалося завантажити коментарі.");
       }
@@ -44,30 +51,35 @@ const token = localStorage.getItem('token') || localStorage.getItem('adminToken'
   }, [token]);
 
   const handleApprove = async (id) => {
+    const token = getAuthHeader();
     try {
       await API.patch(`/admin/comments/approve/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setComments(prev => prev.filter(c => c._id !== id));
+      alert("✅ Коментар схвалено!");
     } catch (err) {
-      alert("Помилка при схваленні: " + (err.response?.data?.message || err.message));
+      alert("❌ Помилка при схваленні: " + (err.response?.data?.message || err.message));
     }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Видалити цей коментар остаточно?")) return;
     
+    const token = getAuthHeader();
     try {
       await API.delete(`/admin/comments/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setComments(prev => prev.filter(c => c._id !== id));
+      alert("🗑️ Коментар видалено.");
     } catch (err) {
-      alert("Помилка при видаленні");
+      alert("❌ Помилка при видаленні");
     }
   };
 
-  if (loading) return (
+  if (loading)
+     return (
   <div className="moderation-container">
     <h1 className="page-title">Модерація коментарів</h1>
     <div className="skeleton-list">
