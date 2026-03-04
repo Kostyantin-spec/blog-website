@@ -14,7 +14,7 @@ function uploadAdapter(loader) {
     return {
         upload: () => loader.file.then(file => {
             const body = new FormData();
-            body.append('image', file); 
+            body.append('blog_image', file); 
 
             // Використовуємо наш налаштований клієнт API
             // Він уже знає адресу Render і сам додасть baseURL
@@ -193,7 +193,7 @@ const handleSubmit = async (e) => {
     dataToSend.append("faqs", JSON.stringify(faqs.filter(f => f.question?.trim())));
     
     if (imageFile) {
-      dataToSend.append("image", imageFile);
+      dataToSend.append('blog_image', imageFile);
     }
 
     // 3. Використовуємо API.put з ЯВНИМ конфігом (токеном)

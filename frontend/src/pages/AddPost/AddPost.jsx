@@ -21,7 +21,7 @@ function uploadAdapter(loader) {
             return loader.file.then(file => {
                 const body = new FormData();
                 // Назва 'upload' має збігатися з multer на бекенді
-               body.append('image', file); 
+               body.append('blog_image', file); 
 
                 // Використовуємо наш централізований клієнт API
                 return API.post('/blogs/upload-image', body)
@@ -193,7 +193,7 @@ const handleSubmit = async (e) => {
     });
 
     dataToSend.append("faqs", JSON.stringify(faqs.filter(f => f.question?.trim())));
-    if (imageFile) dataToSend.append("image", imageFile);
+    if (imageFile) dataToSend.append('blog_image', imageFile);
 
     // 4. Відправка статті на сервер (ЯВНО передаємо токен)
     // Content-Type для FormData axios/браузер додадуть самі
