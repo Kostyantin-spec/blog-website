@@ -2,7 +2,7 @@ import Blog from "../models/Blog.js";
 import axios from 'axios';
 import Settings from "../models/Settings.js"; 
 import mongoose from "mongoose";
-import { createUnifiedPayload } from "../../../backend/utils/createUnifiedPayload.js";
+import { createUnifiedPayload } from "../../../backend/src/utils/createUnifiedPayload.js";
 import Lead from '../models/Lead.js';
 
 /**

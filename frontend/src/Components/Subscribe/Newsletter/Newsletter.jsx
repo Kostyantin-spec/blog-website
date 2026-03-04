@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react'; 
 import { BsSend, BsCheckCircle } from "react-icons/bs";
-import createUnifiedPayload from '../../../../../backend/utils/createUnifiedPayload'
+import { createUnifiedPayload } from "../../../backend/src/utils/createUnifiedPayload.js";
 import './Newsletter.css';
 import API from '../../../api/blogApi.js';
 

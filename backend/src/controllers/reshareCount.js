@@ -1,7 +1,7 @@
 import Blog from '../models/Blog.js';
 import Settings from '../models/Settings.js';
 import axios from 'axios';
-import { createUnifiedPayload } from "../../utils/createUnifiedPayload.js";
+import { createUnifiedPayload } from "../../../backend/src/utils/createUnifiedPayload.js";
 
 export const handleReshare = async (req, res) => {
   try {

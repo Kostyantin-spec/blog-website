@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion"; 
 import { IoClose } from "react-icons/io5";
 import { BsLightningCharge, BsCheckCircle } from "react-icons/bs";
-import { createUnifiedPayload } from '../../../../backend/utils/createUnifiedPayload';
+import { createUnifiedPayload } from '../../../../backend/src/utils/createUnifiedPayload.js';
 import './Modal.css';
 import API from '../../api/blogApi.js';
 

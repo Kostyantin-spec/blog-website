@@ -4,7 +4,7 @@ import API from '../../api/blogApi.js';
 import "./Contact.css";
 
 import { useNavigate } from "react-router-dom";
-import createUnifiedPayload from '../../../../backend/utils/createUnifiedPayload';
+import { createUnifiedPayload } from "../../../backend/src/utils/createUnifiedPayload.js";
 
 const Contact = () => {
   const [formData, setFormData] = useState({

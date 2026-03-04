@@ -22,7 +22,7 @@ import API from '../../api/blogApi.js';
 import SupportAndRating from "../../Components/SupportAndRating/SupportAndRating";
 import FAQ from "../../Components/FAQ/FAQ";
 import ReadingProgressBar from '../../Components/ReadingProgressBar/ReadingProgressBar';
-import createUnifiedPayload from '../../../../backend/utils/createUnifiedPayload';
+import { createUnifiedPayload } from "../../../backend/src/utils/createUnifiedPayload.js";
 import {TEAM_MEMBERS} from '../../data';
 
 // Функція для пошуку заголовків h2 у тексті

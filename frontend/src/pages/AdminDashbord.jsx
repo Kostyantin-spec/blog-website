@@ -8,7 +8,7 @@ import {
   FaFileAlt, FaStar, FaEye, FaHeart, FaTrash, FaRocket, FaChartLine
 } from 'react-icons/fa';
 import './AdminDashboard/AdminDashboard.css';
-import { createUnifiedPayload } from "../../../backend/utils/createUnifiedPayload.js";
+import { createUnifiedPayload } from "../../../backend/src/utils/createUnifiedPayload.js";
 import API from '../api/blogApi.js';
 
 
