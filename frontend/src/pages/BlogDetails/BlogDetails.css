@@ -1332,11 +1332,11 @@
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.4;
-  color: #4b5563;
+  color: var(--text-tho);
 }
 
 .affiliate-disclosure b {
-  color: #374151;
+  color: var(--text-muted);
 }
 
 .support-project-card {
