@@ -41,9 +41,11 @@ app.get("/health", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
-);
+
+// Додаємо '0.0.0.0' як другий аргумент
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
 
 app.post("/api/test", (req, res) => {
   console.log("TEST REQ BODY:", req.body);
