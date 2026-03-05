@@ -215,18 +215,20 @@ const handleSubmit = async (e) => {
       // Використовуємо наш бекенд як проксі до Make.com
       await API.post("/send-to-make", payload, config);
       console.log("🚀 Дані для соцмереж відправлено через бекенд");
+
+      // ПЕРЕНАПРАВЛЕННЯ (РЕДИРЕКТ)
+    setTimeout(() => {
+      navigate('/admin/dashboard'); 
+    }, 1000);
     }
 
   } catch (error) {
     console.error("Помилка створення статті:", error);
-    
-    // НЕ видаляй чернетку тут! 
-    // Виведи помилку, щоб знати, що саме не так:
     const errorMsg = error.response?.data?.message || error.message;
-    alert(`Помилка: ${errorMsg}. Текст збережено, спробуй натиснути кнопку ще раз.`);
-    
-    setLoading(false); // Зупиняємо анімацію завантаження
-}
+    alert(`Помилка: ${errorMsg}. Текст збережено.`);
+  } finally {
+    setLoading(false); 
+  }
 };
 
     return (

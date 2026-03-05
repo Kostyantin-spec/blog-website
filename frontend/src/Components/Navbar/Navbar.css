@@ -303,7 +303,7 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 300px; /* Краще фіксована ширина, ніж 80vh */
+    width: 300px;
     height: 100vh;
     background: #0f172a;
     padding: 80px 20px;
@@ -312,7 +312,7 @@
     flex-direction: column;
     overflow-y: auto;
     visibility: hidden; 
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.4s ease-in-out;
     z-index: 1000;
   }
 
@@ -322,59 +322,72 @@
   }
 
   .nav_menu ul {
+    display: flex; /* Додано для контролю */
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    gap: 8px; /* Прибрали important */
+    gap: 8px;
+    padding: 0;
+    list-style: none;
   }
 
   .nav-item.dropdown {
     width: 100%;
+    position: relative; /* Щоб підменю знало, від чого рахувати відступи */
   }
 
+  /* Кнопка-перемикач */
   .nav-gold-link.dropdown-toggle {
     width: 100%;
     justify-content: space-between;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
-    padding: 10px 15px;
+    padding: 12px 15px;
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 
-  /* --- ВИПРАВЛЕННЯ ТУТ --- */
+  /* --- ГОЛОВНІ ВИПРАВЛЕННЯ ТУТ --- */
   .nav-item.dropdown .dropdown-menu {
-    position: static;
-    /* Прибираємо примусове відображення */
-    display: none; 
-    opacity: 0;
-    visibility: hidden;
-    background: rgba(0, 0, 0, 0.2);
+    /* Змінюємо static на relative, щоб воно було ПІД кнопкою, але в потоці */
+    position: relative; 
+    display: none; /* Сховано за замовчуванням */
+    width: 100%;
+    background: rgba(0, 0, 0, 0.15);
     border: none;
     border-left: 2px solid #f59e0b;
-    margin: 10px 0 10px 10px;
-    padding: 0 0 0 15px;
+    margin: 5px 0 10px 10px;
+    padding: 5px 0 5px 15px;
     box-shadow: none;
-    width: auto;
+    opacity: 1; /* В мобільній версії краще без зайвих ігор з opacity */
+    visibility: visible;
     transform: none;
+    min-width: unset; /* Скидаємо десктопну ширину */
   }
 
-  /* Показуємо підменю, тільки коли батьківський елемент має клас active (якщо ти клікаєш по ньому) */
+  /* Показуємо підменю ТІЛЬКИ коли є клас active */
+  /* Додаємо !important, щоб перебити inline-стилі або JS-добавки */
   .nav-item.dropdown.active .dropdown-menu {
-    display: block;
-    opacity: 1;
-    visibility: visible;
+    display: block !important; 
+  }
+
+  .dropdown-menu li {
+    width: 100%;
   }
 
   .dropdown-menu li a {
-    padding: 12px 0;
-    font-size: 1rem;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    color: #e2e8f0;
     display: block;
+    text-decoration: none;
   }
 
   .nav-top10-btn {
     width: 100%;
     margin-top: 20px;
+    display: flex;
     justify-content: center;
   }
 }

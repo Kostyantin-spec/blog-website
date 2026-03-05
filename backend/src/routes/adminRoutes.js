@@ -61,16 +61,6 @@ router.delete("/comments/:id", adminProtect, async (req, res) => {
 });
 
 
-// 2. Схвалити коментар
-router.patch("/comments/approve/:id", adminProtect, async (req, res) => {
-  try {
-    await Comment.findByIdAndUpdate(req.params.id, { isApproved: true });
-    res.json({ message: "Коментар схвалено!" });
-  } catch (error) {
-    res.status(500).json({ error: "Не вдалося схвалити коментар" });
-  }
-});
-
 // 1. Отримання налаштувань
 router.get("/settings", async (req, res) => {
   try {
