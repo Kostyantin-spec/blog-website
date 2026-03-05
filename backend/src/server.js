@@ -53,8 +53,17 @@ app.post("/api/test", (req, res) => {
 
 
 
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send({ message: 'Щось пішло не так на сервері!' });
+// });
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send({ message: 'Щось пішло не так на сервері!' });
+  // Відправляємо реальну помилку клієнту, щоб ми могли її прочитати
+  res.status(500).send({ 
+    message: 'Щось пішло не так на сервері!', 
+    error: err.message, // Додаємо це
+    stack: err.stack    // І це
+  });
 });
-

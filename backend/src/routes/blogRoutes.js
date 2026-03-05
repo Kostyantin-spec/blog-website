@@ -26,21 +26,24 @@ import { upload } from '../middleware/uploadMiddleware.js';
 import { handleUniversalForm } from '../controllers/integrationController.js';
 import { reshareCount } from '../controllers/reshareCount.js';
 
+router.get('/search', searchBlogs);
+router.get('/related', getRelatedBlogs);
+router.get('/gold-stats', adminProtect, getGoldPageStats)
+
+
 router.post('/:slug/reshare', reshareCount.handleReshare);
 router.post('/send-to-make',handleUniversalForm);
-router.post('/upload-image', upload.single('upload'), (req, res) => {
+router.post('/upload-image', upload.single('blog_image'), (req, res) => {
    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
    console.log("Успішно завантажено на Cloudinary:", req.file.path);
    res.json({ url: req.file.path }); 
 });
-router.get('/gold-stats', adminProtect, getGoldPageStats)
 
 router.post("/:id/like", likeBlog);
 router.post("/:id/rate", rateBlog);
 
 // --- МАРШРУТИ ---
-router.get('/search', searchBlogs);
-router.get('/related', getRelatedBlogs);
+
 // Отримати всі блоги (публічно)
 router.get('/', getBlogs);
 router.get('/:slug', getBlogBySlug);
