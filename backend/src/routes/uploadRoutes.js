@@ -1,9 +1,9 @@
 
-import upload from '../middleware/uploadMiddleware.js'; // Твій мультер для Cloudinary
+import upload from '../utils/createUnifiedPayload'; 
 
 // === НОВИЙ РОУТ ДЛЯ ЗАВАНТАЖЕННЯ КАРТИНОК З РЕДАКТОРА ===
 router.post('/upload-image', (req, res) => {
-  upload.single('image')(req, res, (err) => {
+  upload.single('blog_image')(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       // Помилка самого Multer (наприклад, завеликий файл)
       console.error("Multer Error:", err);

@@ -303,17 +303,17 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 80vh;
+    width: 300px; /* Краще фіксована ширина, ніж 80vh */
     height: 100vh;
     background: #0f172a;
     padding: 80px 20px;
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: -10px 0 30px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     visibility: hidden; 
-    transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
   }
 
   .nav_menu.open {
@@ -325,45 +325,56 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    gap: 8px !important;
+    gap: 8px; /* Прибрали important */
   }
 
   .nav-item.dropdown {
     width: 100%;
-    display: block;
   }
 
   .nav-gold-link.dropdown-toggle {
     width: 100%;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
   }
 
-  /* Випадаюче меню в мобілці - вбудоване */
+  /* --- ВИПРАВЛЕННЯ ТУТ --- */
   .nav-item.dropdown .dropdown-menu {
-    position: static !important;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    background: rgba(0, 0, 0, 0.2) !important;
-    border: none !important;
-    border-left: 2px solid #f59e0b !important;
-    margin: 10px 0 10px 10px !important;
-    padding: 0 0 0 15px !important;
-    box-shadow: none !important;
-    width: auto !important;
-    transform: none !important;
+    position: static;
+    /* Прибираємо примусове відображення */
+    display: none; 
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-left: 2px solid #f59e0b;
+    margin: 10px 0 10px 10px;
+    padding: 0 0 0 15px;
+    box-shadow: none;
+    width: auto;
+    transform: none;
+  }
+
+  /* Показуємо підменю, тільки коли батьківський елемент має клас active (якщо ти клікаєш по ньому) */
+  .nav-item.dropdown.active .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
   }
 
   .dropdown-menu li a {
-    padding: 12px 0 !important;
-    font-size: 1rem !important;
+    padding: 12px 0;
+    font-size: 1rem;
+    display: block;
   }
 
   .nav-top10-btn {
     width: 100%;
-    margin: 20px 0 0 0 !important;
+    margin-top: 20px;
     justify-content: center;
   }
 }
