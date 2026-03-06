@@ -31,10 +31,11 @@
 }
 
 .navbar-container {
+  box-sizing: border-box;
   max-width: 1300px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -228,14 +229,14 @@
 }
 
 /* Спеціальні рівні сітки для великих екранів */
-@media (min-width: 1700px) {
+/* @media (min-width: 1700px) {
     .navbar-item.dropdown:hover .dropdown-menu {
         display: grid !important;
         grid-template-columns: repeat(5, 1fr) !important;
         width: 1200px !important;
         left: -400px;
     }
-}
+} */
 
 /* ==================================================
    5. ACTIONS (КНОПКА ТОП-10)
@@ -297,7 +298,7 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 350px;
+    width: 320px;
     height: 100vh;
     background: var(--bg-dark);
     padding: 80px 20px;
@@ -310,7 +311,9 @@
     z-index: 1000;
   }
 
-  .navbar_menu.open { right: 0; visibility: visible; }
+  .navbar_menu.open {
+     right: 0;
+      visibility: visible; }
 
   .navbar_menu ul {
     flex-direction: column;
@@ -375,6 +378,9 @@
 
 @media (max-width: 480px) {
   .navbar_menu { width: 100%; }
+  .admin_icon_link{
+    display: none;
+  }
 }
 
 /* ==================================================

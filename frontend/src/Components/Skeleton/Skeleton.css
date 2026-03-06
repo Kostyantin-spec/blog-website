@@ -1,11 +1,16 @@
 .skeleton-wrapper {
   max-width: 800px;
   width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--nav-bg) !important; /* Використовуємо твій синій #092871 */
+  min-height: 100vh; /* Щоб не було чорних дирок знизу */
+  box-sizing: border-box;
 }
 
 /* А тепер застосовуємо ці змінні до твоїх скелетонів */
 .sh, .skeleton-line, .skeleton-avatar, .skeleton-btn {
-  background-color: var(--sk-bg);
+  background-color: var(--sk-bg) !important;
   background-image: linear-gradient(
     90deg, 
     var(--sk-bg) 0px, 

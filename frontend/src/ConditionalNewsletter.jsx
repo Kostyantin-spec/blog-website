@@ -14,6 +14,7 @@ const ConditionalNewsletter = () => {
     '/admin/register-secret-page',
     '/advert',
     '/top-tools',
+    '/builders',
     '/tools',
     '/top-tools-hosting',
     '/top-tools-builders',

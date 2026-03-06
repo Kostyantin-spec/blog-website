@@ -66,15 +66,21 @@
 
 html, body {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  min-height: 100vh;
+  min-height: 100vh !important;
   background-attachment: fixed;
-  overflow-x: hidden;
-  position: relative;
-  margin: 0;
-  min-height: 100vh;
-  margin: 0;
+  overflow-x: hidden !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
   -webkit-font-smoothing: antialiased;
   background: var(--bg-gradient);
+  max-width: 100% !important;
+ 
+}
+
+#root {
+  overflow-x: hidden !important;
+  width: 100% !important;
 }
 h1, h2 {
   font-family: 'Inter', sans-serif;
@@ -103,7 +109,7 @@ li {
 
 a {
   text-decoration: none;
-  /* color: var(--link-color); */
+  color: var(--link-color);
   transition: color 0.3s ease;
   font-family: 'Inter', sans-serif;
   letter-spacing: -0.011em; 

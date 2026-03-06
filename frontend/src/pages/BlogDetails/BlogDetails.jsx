@@ -261,46 +261,43 @@ updateMeta("og:image", image, true);
 };
 
 
-  const handleCommentSubmit = async (e) => {
+const handleCommentSubmit = async (e) => {
   e.preventDefault();
-// Валідація перед відправкою
+
   if (!commentData.name.trim() || !commentData.email.trim() || !commentData.text.trim()) {
-    toast.error("Будь ласка, заповніть всі обов'язкові поля: Ім'я, Email та Текст.");
+    toast.error("Будь ласка, заповніть всі обов'язкові поля.");
     return;
   }
 
-
- if (!agreedComments) {
-    toast.error("Будь ласка, підтвердіть згоду з політикою конфіденційності.");
+  if (!agreedComments) {
+    toast.error("Будь ласка, підтвердіть згоду.");
     return;
   }
 
   setCommentStatus("sending");
 
   try {
-   const response = await API.post("/send-to-make", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: commentData.name,
-        email: commentData.email,
-        text: commentData.text,
-        source: "Article Comment",
-        articleTitle: blog.title, // Беремо з об'єкта blog
-        articleSlug: slug      // ОБО'ВЯЗКОВО ДОДАЙ ЦЕ!
-      }),
+    // В Axios другий аргумент - це одразу ТВОЇ ДАНІ
+    const response = await API.post("/send-to-make", {
+      name: commentData.name,
+      email: commentData.email,
+      text: commentData.text,
+      source: "Article Comment",
+      articleTitle: blog?.title,
+      articleSlug: slug
     });
 
-    if (response.ok) {
+    // У Axios успішний запит - це статус 2xx
+    if (response.status === 200 || response.status === 201) {
       setCommentStatus("success");
       toast.success("Дякуємо! Коментар з'явиться після модерації.");
       setCommentData({ name: "", email: "", text: "" });
       setTimeout(() => setCommentStatus("idle"), 3000);
-    } else {
-      setCommentStatus("error");
     }
   } catch (err) {
+    console.error("Помилка відправки:", err);
     setCommentStatus("error");
+    toast.error("Сталася помилка при відправці.");
   }
 };
 

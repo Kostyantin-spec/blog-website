@@ -41,6 +41,7 @@ import TopToolsMarketing from "./pages/TopTools/TopToolsMarketing";
 import ConditionalNewsletter from './ConditionalNewsletter';
 import TopToolsCRM from "./pages/TopTools/TopToolsCRM";
 import GoldAnalytics from "./pages/GoldAnalitics/GoldAnalytics";
+import BuildersPage from "./pages/BuildersPage/BuildersPage";
 
 
 // Google Analytics Setup
@@ -98,6 +99,7 @@ const App = () => {
           <Route path="/advert" element={<Advert />} />
           <Route path="/blog/:slug" element={<BlogDetails />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/builders" element={<BuildersPage />} />
           <Route path="/top-tools" element={<TopTools />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/tools" element={<TopTools />} />

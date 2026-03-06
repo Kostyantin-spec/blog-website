@@ -3,7 +3,7 @@
   background-color: #0f172a; 
   color: #f8fafc;
   min-height: 100vh;
-  padding: 220px 20px;
+  padding: 100px 20px;
   font-family: 'Inter', sans-serif;
 }
 
@@ -139,7 +139,10 @@
   color:  #eeeeee;
 }
 
-
+.provider-info{
+  display: flex;
+  align-items: center;
+}
 
 .tool-tagline {
   color: #94a3b8;
@@ -436,7 +439,7 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 1.5fr 2fr 1fr 1.2fr;
+  grid-template-columns: 1.5fr 3.5fr 1fr 1.2fr;
   padding: 20px;
   background: rgba(255, 255, 255, 0.05);
   color: #94a3b8;
@@ -446,12 +449,14 @@
 
 .table-row {
   display: grid;
-  grid-template-columns: 1.5fr 2fr 1fr 1.2fr;
+  grid-template-columns: 1.5fr 3.5fr 1fr 1.2fr;
   padding: 25px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   align-items: center;
   transition: background 0.3s;
 }
+
+
 
 .table-row:hover {
   background: rgba(255, 255, 255, 0.02);
@@ -905,9 +910,10 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 787px) {
   .table-row {
-    flex-direction: column; /* Перетворюємо рядок на вертикальну картку */
+    display: flex;
+    flex-direction: column !important; /* Перетворюємо рядок на вертикальну картку */
     align-items: center;
     text-align: center;
     padding: 25px 15px;
