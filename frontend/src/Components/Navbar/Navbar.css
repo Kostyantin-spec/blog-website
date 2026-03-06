@@ -40,33 +40,67 @@
   align-items: center;
 }
 
-/* ЛОГОТИП */
-.nav_logo a {
-  text-decoration: none;
+/* Контейнер логотипу */
+.nav_logo {
   display: flex;
   align-items: center;
+  z-index: 100;
 }
 
+/* Прибираємо стандартне підкреслення посилання */
+.nav_logo a {
+  text-decoration: none !important;
+  display: block;
+}
+
+/* Стилізація заголовка всередині лого */
 .nav_logo h2 {
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: #fff;
+  gap: 12px; /* Відстань між картинкою та текстом */
+  color: #ffffff;
   font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-weight: 900;
+  letter-spacing: 1.5px; /* Розріджений текст виглядає дорожче */
   margin: 0;
+  transition: var(--transition-smooth);
 }
 
+/* Стилізація самої картинки-лого */
 .logo_img {
-  height: 35px;
+  height: 42px; /* Оптимальна висота для навбара 80px */
   width: auto;
+  object-fit: contain;
+  /* Легке блакитне світіння навколо іконки */
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4)); 
+  transition: transform 0.3s ease;
+}
+
+/* Ефект при наведенні на все лого */
+.nav_logo:hover h2 {
+  color: var(--accent-blue);
+}
+
+.nav_logo:hover .logo_img {
+  transform: scale(1.05) rotate(-2deg); /* Легка динаміка */
+}
+
+/* Адаптивність для маленьких екранів */
+@media (max-width: 480px) {
+  .nav_logo h2 {
+    font-size: 1.1rem; /* Зменшуємо текст на телефонах */
+    gap: 8px;
+  }
+  
+  .logo_img {
+    height: 34px;
+  }
 }
 
 /* ==================================================
    3. ДЕСКТОПНЕ МЕНЮ
    ================================================== */
-.nav_menu ul {
+.navbar_menu ul {
   display: flex;
   align-items: center;
   list-style: none;
@@ -75,8 +109,8 @@
   padding: 0;
 }
 
-.nav_menu a, .nav-item {
-  color: var(--text-muted);
+.navbar_menu a, .nav-item {
+  color: var(--text-light);
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 500;
@@ -87,10 +121,10 @@
   align-items: center;
 }
 
-.nav_menu a:hover, 
-.nav_menu a.active,
+.navbar_menu a:hover, 
+.navbar_menu a.active,
 .active-neon {
-  color: #fff;
+  color: var(--accent-blue);
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -102,12 +136,12 @@
 /* ==================================================
    4. "ТОП ІНСТРУМЕНТИ" ТА DROPDOWN (DESKTOP)
    ================================================== */
-.nav-item.dropdown {
+.navbar-item.dropdown {
   position: relative;
 }
 
 /* Кнопка-тригер */
-.nav-gold-trigger {
+.navbar-gold-trigger {
   all: unset;
   display: flex;
   align-items: center;
@@ -122,7 +156,7 @@
   transition: var(--transition);
 }
 
-.nav-item.dropdown:hover .nav-gold-trigger {
+.navbar-item.dropdown:hover .navbar-gold-trigger {
   background: rgba(245, 158, 11, 0.15);
   border-color: var(--accent-gold);
   box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
@@ -141,16 +175,18 @@
   padding: 15px;
   z-index: 100;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  display: none; 
+  display: none !important;
+  gap: 4px !important; 
   list-style: none;
   animation: navFadeIn 0.3s ease;
 }
 
 /* Поведінка при ховері (Desktop) */
-.nav-item.dropdown:hover .dropdown-menu {
+.navbar-item.dropdown:hover .dropdown-menu {
   display: flex !important;
   flex-direction: column !important;
   width: 320px !important;
+  animation: fadeInDown 0.3s ease forwards;
 }
 
 /* Елементи списку */
@@ -171,10 +207,29 @@
   color: var(--accent-blue);
   padding-left: 20px;
 }
+.admin_icon_link{
+   color: var(--text-muted);
+}
+.admin_icon_link:hover{
+   color: var(--accent-blue);
+}
+
+.dropdown-menu .navbar-item svg {
+  color: inherit;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.dropdown-menu .navbar-item:hover svg,
+.dropdown-menu .navbar-item.active-neon svg {
+  opacity: 1;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.5));
+}
 
 /* Спеціальні рівні сітки для великих екранів */
 @media (min-width: 1700px) {
-    .nav-item.dropdown:hover .dropdown-menu {
+    .navbar-item.dropdown:hover .dropdown-menu {
         display: grid !important;
         grid-template-columns: repeat(5, 1fr) !important;
         width: 1200px !important;
@@ -185,13 +240,13 @@
 /* ==================================================
    5. ACTIONS (КНОПКА ТОП-10)
    ================================================== */
-.nav_actions {
+.navbar_actions {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.nav-top10-btn {
+.navbar-top10-btn {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   border: none;
   padding: 10px 20px;
@@ -206,7 +261,7 @@
   transition: var(--transition);
 }
 
-.nav-top10-btn:hover {
+.navbar-top10-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
 }
@@ -238,11 +293,11 @@
 @media (max-width: 1024px) {
   .mobile_toggle { display: block; z-index: 1001; }
 
-  .nav_menu {
+  .navbar_menu {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 300px;
+    width: 350px;
     height: 100vh;
     background: var(--bg-dark);
     padding: 80px 20px;
@@ -255,18 +310,18 @@
     z-index: 1000;
   }
 
-  .nav_menu.open { right: 0; visibility: visible; }
+  .navbar_menu.open { right: 0; visibility: visible; }
 
-  .nav_menu ul {
+  .navbar_menu ul {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
 
-  .nav-item.dropdown { width: 100%; }
+  .navbar-item.dropdown { width: 100%; }
 
   /* Тригер меню на мобільних */
-  .nav-gold-link.dropdown-toggle {
+  .navbar-gold-link.dropdown-toggle {
     width: 100%;
     justify-content: space-between;
     background: rgba(255, 255, 255, 0.05);
@@ -279,14 +334,15 @@
   }
 
   /* Виправлення: меню ПІД кнопкою на мобільних */
-  .nav-item.dropdown .dropdown-menu {
+  .navbar-item.dropdown .dropdown-menu {
     position: relative !important;
     top: 0 !important;
     margin-top: 10px;
     display: none !important; /* Ховаємо, поки немає класу active */
     width: 100% !important;
     background: rgba(0, 0, 0, 0.2);
-    border-left: 2px solid var(--accent-gold);
+    border-left: 3px solid var(--accent-gold);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     border-top: none;
     border-right: none;
     border-bottom: none;
@@ -296,7 +352,7 @@
   }
 
   /* Відкриття по кліку (JS додає клас active) */
-  .nav-item.dropdown.active .dropdown-menu {
+  .navbar-item.dropdown.active .dropdown-menu {
     display: block !important;
   }
 
@@ -305,18 +361,20 @@
     font-size: 1rem;
   }
 
-  .nav_actions {
+  .navbar_actions {
     margin-top: auto;
-    padding-bottom: 40px;
-    flex-direction: column;
-    width: 100%;
+    /* padding-bottom: 40px; */
+    /* flex-direction: column;
+    width: 100%; */
+   
+
   }
 
-  .nav-top10-btn { width: 100%; justify-content: center; }
+  .navbar-top10-btn { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 480px) {
-  .nav_menu { width: 100%; }
+  .navbar_menu { width: 100%; }
 }
 
 /* ==================================================

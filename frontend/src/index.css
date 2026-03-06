@@ -103,7 +103,7 @@ li {
 
 a {
   text-decoration: none;
-  color: var(--link-color);
+  /* color: var(--link-color); */
   transition: color 0.3s ease;
   font-family: 'Inter', sans-serif;
   letter-spacing: -0.011em; 
